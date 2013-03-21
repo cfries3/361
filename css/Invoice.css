@@ -1,0 +1,39 @@
+
+
+.opt{
+	
+	margin:0px 10px 20px 50px;
+}
+
+.new_invoice{
+	
+	position:relative;
+	left:-20px;
+	
+}
+
+.inv{
+	
+	margin:10px 10px 20px 50px;
+	
+}
+
+.element{
+	
+	margin: 20px 0px;
+	
+}
+
+.title{
+	
+	font-family:Arial, Verdana;
+	font-size:20px;
+	font-weight:bold;
+	color:#86C543;
+	
+}
+
+#Results{
+	height:500px;
+	overflow:auto;
+}
