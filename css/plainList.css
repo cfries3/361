@@ -1,0 +1,44 @@
+/*-- Content --*/
+
+#createTopic {
+	margin:10px 20px 10px 0px;
+}
+
+/*-- Topic Table --*/
+
+#topics {
+	width:750px;
+	margin:20px auto 10px auto;
+	text-align:left;
+	border-collapse:collapse;
+	table-layout:fixed;
+}
+
+#topics thead th {
+	color:#34302D;
+	font-weight:bold;
+	font-size:large;
+	text-align:left;
+}
+
+#topics tbody td {
+	padding:5px;
+	overflow:hidden;
+}
+
+.col1 {
+	width:300px;
+}
+
+.col2, .col4 {
+	width:175px;
+}
+
+.col3 {
+	width:100px;
+}
+
+#topics tbody tr:hover td {
+	background-color:EDEAE3;
+}
+

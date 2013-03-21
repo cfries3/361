@@ -1,0 +1,41 @@
+/*-- Form --*/
+
+.forms {
+	width:650px;
+	margin:20px auto 10px auto;
+	border-collapse:collapse;
+	table-layout:fixed;
+}
+
+.forms td {
+	padding:10px;
+	vertical-align:top;
+}
+
+.twoCol {
+	text-align: center;
+}
+
+.col1 {
+	text-align:right;
+}
+
+.col2 {
+	text-align:center;
+}
+
+textarea:focus, input:focus {
+	border:1px solid #86C543;
+}
+
+#split {
+	color:#86C543;
+	font-weight:bold;
+}
+
+
+/*-- Written Content --*/
+
+.forms p {
+	margin:100px 100px 50px 100px;
+}

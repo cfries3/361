@@ -1,0 +1,70 @@
+/*-- Announcements --*/
+
+.announcements {
+	width:760px;
+	margin:10px auto 10px auto;
+	border-radius:5px;
+	-moz-border-radius:5px; /* Old Firefox */
+	background-color:#EDEAE3;
+	color:#34302D;
+	border:1px solid #E6E6E6;
+}
+
+.announcements h4, .announcements p {
+	margin:15px 0px 15px 10px;
+}
+
+
+/*-- Project List --*/
+
+
+ul.container {
+	width:700px;
+	margin:20px auto 20px auto;
+}
+
+li.pMenu {
+	width:100%;
+}
+
+li.clickable a {
+	display:block;
+	height:40px;
+	width:680px;
+	position:relative;
+	vertical-align:middle;
+	border-bottom:1px solid #34302D;
+	overflow:hidden;
+}
+
+li.clickable img {
+	position:relative;
+	top:-40px;
+	left:-70px;
+}
+
+li.dropdown li {
+	margin:0px 0px 10px;
+}
+
+.dropdown {
+	width:600px;
+	display:none;
+	padding-top:5px;
+}
+
+li.dropdown > div, li.dropdown li.clickable a {
+	width:500px;
+}
+
+.dropdown * {
+	position:relative;
+	left:5px;
+}
+
+
+/*-- Discussion Board Topics --*/
+
+.post {
+	width:600px;
+}
