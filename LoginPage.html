@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>LoginPage</title>
+<script type="text/javascript" src="jsSHA-master\jsSHA-master\src\sha.js"></script>
+<style type="text/css">
+.form{
+ width: 300px; 
+ height: 125px; 
+ margin-left: auto; 
+ margin-right: auto; 
+ margin-top: 15%;
+ background-color:#6495ed; 
+ border-radius: 15px;
+ box-shadow: 5px 5px 10px black;
+ padding: 15px;
+ font-family:"Comic Sans MS", cursive, sans-serif;
+ color:#ffffff;
+}
+.field{
+border-radius: 15px;
+padding-right:10px;
+padding-left:10px;
+margin-bottom:20px;
+position:relative;
+left:20px;
+}
+.buttonPos{
+text-align:right;
+}
+.button {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #79bbff), color-stop(1, #3947e3) );
+	background:-moz-linear-gradient( center top, #79bbff 5%, #3947e3 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#79bbff', endColorstr='#3947e3');
+	background-color:#79bbff;
+	-moz-border-radius:42px;
+	-webkit-border-radius:42px;
+	border-radius:42px;
+	border:1px solid #84bbf3;
+	display:inline-block;
+	color:#ffffff;
+	font-family:Comic Sans MS;
+	font-size:17px;
+	font-weight:bold;
+	padding:2px 23px;
+	text-decoration:none;
+	text-shadow:2px -3px 5px #4b3870;
+}.button:active {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #3947e3), color-stop(1, #79bbff) );
+	background:-moz-linear-gradient( center top, #3947e3 5%, #79bbff 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3947e3', endColorstr='#79bbff');
+	background-color:#3947e3;
+	position:relative;
+	top:1px;
+}
+body{
+background-image: linear-gradient(left bottom, #00006A 9%, #0000C2 55%, #0000AA 78%);
+background-image: -o-linear-gradient(left bottom, #00006A 9%, #0000C2 55%, #0000AA 78%);
+background-image: -moz-linear-gradient(left bottom, #00006A 9%, #0000C2 55%, #0000AA 78%);
+background-image: -webkit-linear-gradient(left bottom, #00006A 9%, #0000C2 55%, #0000AA 78%);
+background-image: -ms-linear-gradient(left bottom, #00006A 9%, #0000C2 55%, #0000AA 78%);
+
+background-image: -webkit-gradient(
+	linear,
+	left bottom,
+	right top,
+	color-stop(0.09, #00006A),
+	color-stop(0.55, #0000C2),
+	color-stop(0.78, #0000AA)
+);
+}
+</style>
+</head>
+<body>
+
+<form action="Connect.php" method="post" class="form">
+Username<input type="text" name="Username" class="field"/><br>
+Password <input type="password" name="Password" class="field" /><br>
+<div class="buttonPos"> <input type="submit" class="button" value="Login"/> </div>
+</form>
+
+</body>
+</html>
