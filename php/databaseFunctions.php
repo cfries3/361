@@ -2,9 +2,9 @@
 //comment getpost
 
 $db_host = 'localhost';
-$db_name = 'portaldb';
-$db_user = 'portal';
-$db_pass = 'database'; //database
+$db_name = 'mysql';
+$db_user = 'root';
+$db_pass = ''; //database
 
 mysql_connect($db_host, $db_user, $db_pass) or die(mysql_fatal_error());
 mysql_select_db($db_name) or die(mysql_fatal_error());

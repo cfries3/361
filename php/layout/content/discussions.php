@@ -17,7 +17,7 @@
 			$str_tTitle = $str_tRow[2];
 			$i_uid = $str_tRow[3];
 		
-			$eResult = queryMysql("SELECT e.fname, e.lname FROM user AS u INNER JOIN employee AS e ON u.uid = e.uid WHERE u.uid=$i_uid");
+			$eResult = queryMysql("SELECT e.fname, e.lname FROM comp361_user AS u INNER JOIN employee AS e ON u.uid = e.uid WHERE u.uid=$i_uid");
 			$str_fname = mysql_result($eResult, 0, 'fname');
 			$str_lname = mysql_result($eResult, 0, 'lname');
 				
