@@ -24,9 +24,9 @@ function display_invoices(){
 	$sort = $_POST['sort'];
 	
 	if ($proj == -1){
-		$query = "SELECT iid, name , date, description, amount, paid From invoice ORDER BY $sort";
+		$query = "SELECT * From invoice ORDER BY $sort";
 	}else{
-		$query = "SELECT iid, name , date, description, amount, paid From invoice WHERE pid='$proj' ORDER BY $sort";
+		$query = "SELECT * From invoice WHERE pid='$proj' ORDER BY $sort";
 	}
 	
 	$result = $db->query($query);
@@ -47,6 +47,17 @@ function display_invoices(){
 			printf("<img class='floatRight' src='./../../images/greyCheck.png' />");
 		}
 		printf("</div> due on : %s <br> amount due : %.2f <br>", $row['date'], $row['amount']);
+		
+		$pid = $row['pid'];
+		$query_p = "SELECT title From project WHERE pid='$pid'";
+		$result_p = $db->query($query_p);
+		if($result_p->num_rows == 1)
+		{
+			$row_p = $result_p->fetch_array(MYSQL_ASSOC);
+			$title = $row_p['title'];
+			printf("Associated project: %s <br>", $title);
+		}
+		
 		printf("<button onclick='deleteInvoiceConf(%s)'> delete invoice </button>", $row['iid']);
 		printf("<button onclick='editInvoice(%s)'> edit invoice </button> </div>", $row['iid']);
 	}
@@ -90,6 +101,7 @@ function edit_invoice(){
 	$description = $Data['description'];
 	$amount = $Data['amount'];
 	$paid = $Data['paid'];
+	$pid = $Data['pid'];
 	
 	printf('
 	Name <input type="text" maxlength="30" name="name" value="%s"></input><br>
@@ -97,11 +109,24 @@ function edit_invoice(){
 	Description <textarea maxlength="1000" rows="5" cols="20" name="description" > %s </textarea><br>
 	Amount <input type="number" step="0.01" name="amount" value="%.2f"></input><br>
 	<input type="radio" name="paid" value="1"  >paid
-	<input type="radio" name="paid" value="0" checked="checked">unpaid<br>
+	<input type="radio" name="paid" value="0" checked="checked">unpaid<br>', $name, $date, $description, $amount);
 	
-	<input type="hidden" name="iid" value="%s">
+	$query_p = "SELECT pid, title From project ORDER BY title";
+	
+	$result_p = $db->query($query_p);
+	printf("Associated project: <select>");
+	while ($row_p = $result_p->fetch_array(MYSQLI_ASSOC)){
+		if($row_p['pid'] == $pid){
+			printf("<option value='%s' selected> %s </option>", $row_p['pid'], $row_p['title']);
+		}else{
+			printf("<option value='%s'> %s </option>", $row_p['pid'], $row_p['title']);
+		}
+	}
+	printf("</select><br>");
+	
+	printf('<input type="hidden" name="iid" value="%s"><br>
 	<button onclick="validateEdit(%s)"> validate </button> <button onclick="displayContent()"> cancel </button>
-	', $name, $date, $description, $amount, $iid, $iid);
+	', $iid, $iid);
 	
 }
 
@@ -113,10 +138,10 @@ function edit_invoice_validated(){
 	$description = $_POST['description'];
 	$amount = $_POST['amount'];
 	$paid = $_POST['paid'];
+	$pid = $_POST['pid'];
 	$iid = $_POST['iid'];
 	
-	$query = "UPDATE invoice SET name = '$name', description = '$description', amount = $amount, date = '$date', paid = $paid WHERE iid='$iid'";
-	
+	$query = "UPDATE invoice SET name = '$name', description = '$description', amount = $amount, date = '$date', paid = $paid, pid = '$pid' WHERE iid='$iid'";
 	
 	if($db->query($query)){
 		printf("success");
@@ -128,16 +153,26 @@ function edit_invoice_validated(){
 }
 
 function display_form(){
+	$db = connect_db();
+	
 	printf('
 	Name <input type="text" maxlength="30" name="name" ></input><br>
 	Date <input type="text" maxlength="30" name="date" ></input><br>
 	Description <textarea maxlength="1000" rows="5" cols="20" name="description" ></textarea><br>
 	Amount <input type="number" step="0.01" name="amount" ></input><br>
 	<input type="radio" name="paid" value="1"  >paid
-	<input type="radio" name="paid" value="0" checked="checked">unpaid<br>
+	<input type="radio" name="paid" value="0" checked="checked">unpaid<br>');
 	
-	<button onclick="validateNew()"> validate </button>
-	');
+	$query_p = "SELECT pid, title From project ORDER BY title";
+	
+	$result_p = $db->query($query_p);
+	printf("Associated project: <select id='sel'>");
+	while ($row_p = $result_p->fetch_array(MYSQLI_ASSOC)){
+			printf("<option value='%s'> %s </option>", $row_p['pid'], $row_p['title']);
+	}
+	printf("</select><br>");
+	
+	printf('<button onclick="validateNew()"> validate </button>');
 }
 
 function new_entry(){
@@ -148,8 +183,9 @@ function new_entry(){
 	$description = $_POST['description'];
 	$amount = $_POST['amount'];
 	$paid = $_POST['paid'];
+	$pid = $_POST['pid'];
 	
-	$query = "INSERT INTO  invoice (date, name, description, amount, paid) VALUES ('$date', '$name', '$description', '$amount', $paid);";
+	$query = "INSERT INTO  invoice (date, name, description, amount, paid, pid) VALUES ('$date', '$name', '$description', '$amount', $paid, '$pid');";
 	
 	if($db->query($query)){
 		printf("success");

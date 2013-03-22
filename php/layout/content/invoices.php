@@ -63,7 +63,6 @@ function printScript(){
   			    display: "true"
   			  },
   			  function(data,status){
-			    
   				$("#Results").html(data);
   			  });
   	}
@@ -110,16 +109,15 @@ function printScript(){
 				description: $(id + " textarea[name=description]").val(),
 				amount: $(id + " input[name=amount]").val(),
 				paid: $(id + " input:radio[name=paid]:checked").val(),
+				pid: $(id + " select").val(),
 				iid: $(id + " input[name=iid]").val()
   			  },
   			  function(data,status){
-				window.alert(data);
 				displayContent();
   			  });	
 	}
 	
 	function validateNew(){
-
 		$.post("./../invoicesFunc.php",
   			  {
   			    new_val: "true",
@@ -127,7 +125,8 @@ function printScript(){
 				name: $("input[name=name]").val(),
 				description: $("textarea[name=description]").val(),
 				amount: $("input[name=amount]").val(),
-				paid: $("input:radio[name=paid]:checked").val()
+				paid: $("input:radio[name=paid]:checked").val(),
+				pid: $("#sel").val()
   			  },
   			  function(data,status){
 				window.alert(data);
