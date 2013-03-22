@@ -27,12 +27,17 @@
 		
 		echo <<<_END
 			<h3>
-				<table class="post"><a href="#">
+				<table class="post top"><a href="#">
 					<tr>
 						<th class="col1">$str_tTitle</th>
 						<th class="col2">$str_author</th>
 						<th class="col3">$str_tDate</th>
-						<td><button class="floatRight" type="submit" name="reply" value="1">Reply</button></td>
+						<td><form action="./../pages/reply.php" method="POST">
+								<input type="hidden" name="taskID" value="$i_tid" />
+								<input type="hidden" name="creator" value="$str_author" />
+								<input type="hidden" name="title" value="$str_tTitle" />
+								<button class="floatRight" type="submit" name="reply" value="1">Reply</button>
+							</form></td>
 					</tr></a><br />
 				</table>
 			</h3>

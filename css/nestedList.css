@@ -79,6 +79,11 @@ div#accordion h3 {
 	border-bottom:2px solid #EDEAE3;
 }
 
+.top {
+	position:relative;
+	left:-60px;
+}
+
 .col1 {
 	width:300px;
 }
@@ -88,5 +93,5 @@ div#accordion h3 {
 }
 
 .col3 {
-	width:100px;
+	width:160px;
 }

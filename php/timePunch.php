@@ -12,7 +12,7 @@ require_once 'databaseFunctions.php';
 
 
 	function autoCheckOut() {
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		//!!!!!!!!!!!
 	}
 
 	function punchIn($i_taskID, $i_uid) {
