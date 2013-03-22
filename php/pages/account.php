@@ -1,7 +1,7 @@
 <?php
 	include './../layout/pageClass.php';
 	
-	$sample = new Page("Accounts", "Invoice.css", array(""));
+	$sample = new Page("Accounts", array("Invoice.css"), array(""));
 	
-	$sample->display(0);
+	$sample->display(1, 0);
 ?>

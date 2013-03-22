@@ -14,10 +14,10 @@
         }
            
 
-        public function display($i_numScripts) {
+        public function display($i_numCSS, $i_numScripts) {
             echo "<html>\n<head>\n";
             $this->displayTitle();
-            $this->displayCSS();
+            $this->displayCSS($i_numCSS);
             $this->displayJS($i_numScripts);
             echo "</head>\n" .
 				 "<body>\n" .
@@ -84,9 +84,19 @@ _END;
         }  
 
         
-        protected function displayCSS() {
-        	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"./../../css/default.css\" />\n" .
-          		 "<link rel=\"stylesheet\" type=\"text/css\" href=\"./../../css/" . $this->str_css . "\" />\n";
+        protected function displayCSS($i_numCSS) {
+        	$j=0;
+        	
+        	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"./../../css/default.css\" />\n";
+        	while ($i_numCSS != 0){
+        		if (strpos($this->str_css[$j], "http://") === 0) {
+        			echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $this->str_css[$j] . "\" />\n";
+        		} else {
+          			echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"./../../css/" . $this->str_css[$j] . "\" />\n";
+        		}
+        		++$j;
+        		--$i_numCSS;
+        	}
         }
         
         
@@ -95,7 +105,11 @@ _END;
         	
         	echo "<script type=\"text/javascript\" src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js\"></script>\n";
         	while ($i_numScripts != 0) {
-        		echo "<script type=\"text/javascript\" src=\"./../../js/" . $this->str_script[$i] . "\"></script>\n";
+        		if (strpos($this->str_script[$i], "http://") === 0) {
+        			echo "<script type=\"text/javascript\" src=\"" . $this->str_script[$i] . "\"></script>\n";
+        		} else {
+        			echo "<script type=\"text/javascript\" src=\"./../../js/" . $this->str_script[$i] . "\"></script>\n";
+        		}
         		++$i;
         		--$i_numScripts;
         	}

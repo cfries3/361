@@ -65,6 +65,28 @@ li.dropdown > div, li.dropdown li.clickable a {
 
 /*-- Discussion Board Topics --*/
 
-.post {
-	width:600px;
+div#accordion > div {
+	width:550px;
+	position:relative;
+	left:15px;
+}
+
+div#accordion {
+	margin:20px 20px 20px 20px;
+}
+
+div#accordion h3 {
+	border-bottom:2px solid #EDEAE3;
+}
+
+.col1 {
+	width:300px;
+}
+
+.col2 {
+	width:175px;
+}
+
+.col3 {
+	width:100px;
 }

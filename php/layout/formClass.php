@@ -8,7 +8,7 @@
 		
 		public function Form($str_setAction) {
 			$this->str_action = $str_setAction;
-			printFormat();
+			$this->printFormat();
 		}
 		
 		
