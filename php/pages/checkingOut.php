@@ -1,7 +1,7 @@
 <?php
 	include './../layout/pageClass.php';
 	
-	$sample = new Page("Check Out", "formBased.css", array(""));
+	$sample = new Page("Check Out", array("formBased.css"), array(""));
 	
-	$sample->display(0);
+	$sample->display(1, 0);
 ?>

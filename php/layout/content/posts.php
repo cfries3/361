@@ -9,7 +9,7 @@
 	
 	
 	function printPosts() {
-		echo "<ul id=\"pList\" class=\"container\">";
+		echo "<div id=\"accordion\">";
 		
 		if (!isset($_POST['topic_id'])) {
 			echo "<p>The topic could not be retrieved</p>";
@@ -22,33 +22,32 @@
 		$str_pRow = mysql_fetch_row($pResult);
 		$i_postID = $str_pRow[0];
 		$str_pBody = $str_pRow[2];
-		$str_tDate = $str_pRow[6];
+		$str_tDate = date('F j, g:i', strtotime($str_pRow[6]));
 		$str_tTitle = $str_pRow[7];
 		
 		echo <<<_END
-		<li class="pMenu">
-			<ul>
-				<li class="clickable">
-					<table class="post"><a href="#">
-						<tr>
-							<th>$str_tTitle</th>
-							<th>$str_author</th>
-							<th>$str_tDate</th>
-						</tr></a><br />
-						<tr>
-							<td colspan="3">$str_pBody</td>
-					</table>
-				</li>
-				<li class="dropdown topic">
-					<ul>
+			<h3>
+				<table class="post top"><a href="#">
+					<tr>
+						<th class="col1">$str_tTitle</th>
+						<th class="col2">$str_author</th>
+						<th class="col3">$str_tDate</th>
+						<td><form action="./../pages/reply.php" method="POST">
+								<input type="hidden" name="taskID" value="$i_tid" />
+								<input type="hidden" name="creator" value="$str_author" />
+								<input type="hidden" name="title" value="$str_tTitle" />
+								<button class="floatRight" type="submit" name="reply" value="1">Reply</button>
+							</form></td>
+					</tr></a><br />
+				</table>
+			</h3>
+			<div>
+				<p>$str_pBody</p>
+			</div>
 _END;
 		printReplies($i_postID, $str_tTitle);
 		echo <<<_END
-						</ul>
-					</li>
-				</ul>
-			</li>
-		</ul>
+			</div>
 _END;
 		return;
 	}
@@ -58,8 +57,7 @@ _END;
 	function printReplies($i_postID, $str_tTitle) {
 		
 		while(true) {
-			$str_rQuery = "SELECT * FROM post AS p INNER JOIN replied_to AS r ON p.post_id=r.reply_id WHERE r.original_id=$i_postID";
-			$rResult = queryMysql($str_rQuery);
+			$rResult = queryMysql("SELECT * FROM post AS p INNER JOIN replied_to AS r ON p.post_id=r.reply_id WHERE r.original_id=$i_postID");
 			$i_numRRows = mysql_num_rows($rResult);
 		
 			if ($i_numRRows = 0) {
@@ -68,7 +66,7 @@ _END;
 		
 			$str_rRow = mysql_fetch_row($rResult);
 			$i_postID = $str_rRow[0];
-			$str_pDate = $str_rRow[1];
+			$str_pDate = date('F j, g:i', strtotime($str_rRow[1]));
 			$str_pBody = $str_rRow[2];
 			$i_uid = $str_rRow[3];
 
@@ -77,22 +75,19 @@ _END;
 			$str_lname = mysql_result($eResult, 0, 'lname');
 			
 			echo <<<_END
-				<li class="clickable">
+				<h3>
 					<table class="post">
 						<tr><a href="#">
-							<td>RE: $str_tTitle</td>
-							<td>$str_fname $str_lname</td>
-							<td>$str_pDate</td>
+							<td class="col1">RE: $str_tTitle</td>
+							<td class="col2">$str_fname $str_lname</td>
+							<td class="col3">$str_pDate</td>
 						</tr></a>
 					</table>
-				</li>
-				<li class="dropdown topic">
-					<div>
-						<p>$str_pBody</p>
-					</div>
-				</li>
+				</h3>
+				<div>
+					<p>$str_pBody</p>
+				</div>
 _END;
-		
 		}
 		return;
 	}

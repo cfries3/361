@@ -10,10 +10,11 @@
 	
 	
 	function printTopic($result, $i_numTRows) {
+		
 		for ($n = 0; $n < $i_numTRows; ++$n) {
 			$str_tRow = mysql_fetch_row($result);
 			$i_tid = $str_tRow[0];
-			$str_tDate = $str_tRow[1];
+			$str_tDate = date('F j, g:i', strtotime($str_tRow[1]));
 			$str_tTitle = $str_tRow[2];
 			$i_uid = $str_tRow[3];
 		
@@ -28,7 +29,7 @@
 					<td><form class="plain" action="./../pages/topic.php" method="POST">
 							<input type="hidden" name="topic_id" value="$i_tid" />
 							<input type="hidden" name="creator" value="$str_fname $str_lname" />
-							<input type="submit" name="submit" value="$str_tTitle" />
+							<input type="submit" name="submit" value="$str_tTitle" /><br />
 						</form></td>
 					<td>$str_fname $str_lname</td>
 					<td>$i_numPost</td>
@@ -41,9 +42,8 @@ _END;
 	
 	function displayTopics() {
 		echo <<<_END
-			<form action="./../timePunch.php" method="POST">
-				<button class="floatRight" type="submit" name="create" value="1">Create Topic</button>
-			</form>
+			<button class="floatRight" id="createTopic" type="submit" name="create" value="1">Create Topic</button>
+
 			<table id="topics">
 				<colgroup>
 					<col class="col1" />

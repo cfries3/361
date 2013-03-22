@@ -1,7 +1,7 @@
 <?php
 	include './../layout/pageClass.php';
 	
-	$sample = new Page("Invoice", "Invoice.css", array("NestedList.js"));
+	$sample = new Page("Invoice", array("Invoice.css"), array(""));
 	
-	$sample->display(0);
+	$sample->display(1, 0);
 ?>

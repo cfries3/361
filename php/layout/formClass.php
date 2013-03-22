@@ -8,7 +8,7 @@
 		
 		public function Form($str_setAction) {
 			$this->str_action = $str_setAction;
-			printFormat();
+			$this->printFormat();
 		}
 		
 		
@@ -69,6 +69,15 @@ _END;
 			return;
 		}
 		
+		
+		public function hiddenField($str_name, $str_value) {
+			echo <<<_END
+				<tr>
+					<td><input type="hidden" name="$str_name" value="$str_value" /></td>
+				</tr>
+_END;
+			return;
+		}
 		
 		
 		public function textareaField($str_name, $i_cols, $i_rows) {
