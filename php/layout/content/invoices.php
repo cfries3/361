@@ -13,7 +13,7 @@ function printOptions(){
 	
 	$db = connect_db();
 	
-	$query = "SELECT pid, title From comp361_project ORDER BY title";
+	$query = "SELECT pid, title From project ORDER BY title";
 	
 	$result = $db->query($query);
 	

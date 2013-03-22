@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+/*session_start();
 
 function isLoggedIn()
 {
@@ -29,6 +29,6 @@ if (!isLoggedIn()){
 
 }
 
-checkTimeOut();
+checkTimeOut();*/
 
 ?>

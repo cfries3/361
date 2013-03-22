@@ -33,6 +33,16 @@
 	
 }
 
+.sub-title{
+	
+	display: inline;
+	font-family:Arial, Verdana;
+	font-size:13px;
+	font-weight:bold;
+	color:#86C543;
+	
+}
+
 #Results{
 	height:500px;
 	overflow:auto;

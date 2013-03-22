@@ -38,5 +38,5 @@ else
 {
 	validateUser($userData['uid'], $userData['type']); //sets the session data for this user
 }
-header('Location: http://localhost/webs/BusinnessPortalTests/WelcomePage.php')
+header('Location: http://localhost/webs/BusinnessPortalTests/admin/WelcomePage.php')
 ?>

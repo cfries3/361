@@ -31,7 +31,7 @@ function display_invoices(){
 	
 	$result = $db->query($query);
 	
-	printf("<div class=inv>");
+	printf("<div class='inv'>");
 	if($result->num_rows < 1)
 	{
 		printf("Sorry no result found matching this date and account");
@@ -60,7 +60,7 @@ function delete_invoice(){
 	$iid = $_POST['delete'];
 	$query = "DELETE FROM invoice WHERE iid='$iid'";
 	
-	printf("%s", $query);
+	
 	if($db->query($query)){
 		printf("success");
 	}
@@ -117,7 +117,6 @@ function edit_invoice_validated(){
 	
 	$query = "UPDATE invoice SET name = '$name', description = '$description', amount = $amount, date = '$date', paid = $paid WHERE iid='$iid'";
 	
-	printf("%s", $query);
 	
 	if($db->query($query)){
 		printf("success");
@@ -151,7 +150,6 @@ function new_entry(){
 	$paid = $_POST['paid'];
 	
 	$query = "INSERT INTO  invoice (date, name, description, amount, paid) VALUES ('$date', '$name', '$description', '$amount', $paid);";
-	printf("%s\n", $query);
 	
 	if($db->query($query)){
 		printf("success");

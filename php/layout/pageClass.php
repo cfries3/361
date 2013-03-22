@@ -62,6 +62,12 @@ _END;
 				case "Work Report":
 					include('content/reports.php');
 					break;
+				case "Invoice":
+					include('content/invoices.php');
+					break;
+				case "Accounts":
+					include('content/accountList.php');
+					break;
 				//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			}
 			echo "</div>\n" .
