@@ -25,7 +25,7 @@ $result = $db->query($query);
 if($result->num_rows < 1) //no such user exists
 {
 	header('Location: ./pages/login.php');
-	die();
+	die(); 
 }
 $userData = $result->fetch_array(MYSQLI_ASSOC);
 
