@@ -1,5 +1,5 @@
 <?php 
-require_once './../databaseFunctionsOO.php';
+require_once './databaseFunctionsOO.php';
 
 
 function validateUser($id, $type)
@@ -18,24 +18,27 @@ $password = $_POST['Password'];
 $db = connect_db();
 
 $username = mysql_real_escape_string($username);
-$query = "SELECT password, uid, type
-FROM comp361_user
-WHERE username = '$username';";
+$query = "SELECT password, uid, type FROM user WHERE username = '$username'";
+
 $result = $db->query($query);
+
 if($result->num_rows < 1) //no such user exists
 {
-	header('Location: http://localhost/webs/BusinnessPortalTests/LoginPage.html');
+	header('Location: ./pages/login.php');
 	die();
 }
 $userData = $result->fetch_array(MYSQLI_ASSOC);
-if($password != $userData['password']) //incorrect password
+
+$enc = hash("sha512", $password);
+
+if($enc != $userData['password']) //incorrect password
 {
-	header('Location: http://localhost/webs/BusinnessPortalTests/LoginPage.html');
+	header('Location: ./pages/login.php');
 	die();
 }
 else
 {
 	validateUser($userData['uid'], $userData['type']); //sets the session data for this user
 }
-header('Location: http://localhost/webs/BusinnessPortalTests/admin/WelcomePage.php')
+header('Location: ./pages/ProjectList.php')
 ?>

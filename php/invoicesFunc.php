@@ -24,9 +24,9 @@ function display_invoices(){
 	$sort = $_POST['sort'];
 	
 	if ($proj == -1){
-		$query = "SELECT * From invoice ORDER BY $sort";
+		$query = "SELECT * FROM invoice ORDER BY $sort";
 	}else{
-		$query = "SELECT * From invoice WHERE pid='$proj' ORDER BY $sort";
+		$query = "SELECT * FROM invoice WHERE pid='$proj' ORDER BY $sort";
 	}
 	
 	$result = $db->query($query);
@@ -34,19 +34,18 @@ function display_invoices(){
 	printf("<div class='inv'>");
 	if($result->num_rows < 1)
 	{
-		printf("Sorry no result found matching this date and account");
+		printf("Sorry no result found");
 		die();
 	}
-	
-	
 	while ($row = $result->fetch_array(MYSQLI_ASSOC)){
-		printf("<div id='i%s' class='element'> <div class='title'> %s </div> <div class='desc'> %s ", $row['iid'], $row['name'], $row['description']);
+		printf("<div id='i%s' class='element' > <div onclick='toggle(this.parentNode)' style='cursor:pointer' class='title'> %s </div> 
+				<textarea rows='10' cols='50' class='desc' readonly>%s</textarea>", $row['iid'], $row['name'], $row['description']);
 		if($row['paid']){
 			printf("<img class='floatRight' src='./../../images/greenCheck.png' />");
 		}else{
 			printf("<img class='floatRight' src='./../../images/greyCheck.png' />");
 		}
-		printf("</div> due on : %s <br> amount due : %.2f <br>", $row['date'], $row['amount']);
+		printf(" due on : %s <br>", $row['idate']);
 		
 		$pid = $row['pid'];
 		$query_p = "SELECT title From project WHERE pid='$pid'";
@@ -96,20 +95,18 @@ function edit_invoice(){
 	$Data = $result->fetch_array(MYSQLI_ASSOC);
 	
 	
-	$date = $Data['date'];
+	$date = $Data['idate'];
 	$name = $Data['name'];
 	$description = $Data['description'];
-	$amount = $Data['amount'];
 	$paid = $Data['paid'];
 	$pid = $Data['pid'];
 	
 	printf('
 	Name <input type="text" maxlength="30" name="name" value="%s"></input><br>
 	Date <input type="text" maxlength="30" name="date" value="%s"></input><br>
-	Description <textarea maxlength="1000" rows="5" cols="20" name="description" > %s </textarea><br>
-	Amount <input type="number" step="0.01" name="amount" value="%.2f"></input><br>
+	Description <textarea maxlength="1000" rows="10" cols="50" name="description" >%s</textarea><br>
 	<input type="radio" name="paid" value="1"  >paid
-	<input type="radio" name="paid" value="0" checked="checked">unpaid<br>', $name, $date, $description, $amount);
+	<input type="radio" name="paid" value="0" checked="checked">unpaid<br>', $name, $date, $description);
 	
 	$query_p = "SELECT pid, title From project ORDER BY title";
 	
@@ -136,12 +133,11 @@ function edit_invoice_validated(){
 	$date = $_POST['date'];
 	$name = $_POST['name'];
 	$description = $_POST['description'];
-	$amount = $_POST['amount'];
 	$paid = $_POST['paid'];
 	$pid = $_POST['pid'];
 	$iid = $_POST['iid'];
 	
-	$query = "UPDATE invoice SET name = '$name', description = '$description', amount = $amount, date = '$date', paid = $paid, pid = '$pid' WHERE iid='$iid'";
+	$query = "UPDATE invoice SET name = '$name', description = '$description', idate = '$date', paid = $paid, pid = '$pid' WHERE iid='$iid'";
 	
 	if($db->query($query)){
 		printf("success");
@@ -158,8 +154,7 @@ function display_form(){
 	printf('
 	Name <input type="text" maxlength="30" name="name" ></input><br>
 	Date <input type="text" maxlength="30" name="date" ></input><br>
-	Description <textarea maxlength="1000" rows="5" cols="20" name="description" ></textarea><br>
-	Amount <input type="number" step="0.01" name="amount" ></input><br>
+	Description <textarea maxlength="1000" rows="10" cols="50" name="description" ></textarea><br>
 	<input type="radio" name="paid" value="1"  >paid
 	<input type="radio" name="paid" value="0" checked="checked">unpaid<br>');
 	
@@ -181,11 +176,10 @@ function new_entry(){
 	$date = $_POST['date'];
 	$name = $_POST['name'];
 	$description = $_POST['description'];
-	$amount = $_POST['amount'];
 	$paid = $_POST['paid'];
 	$pid = $_POST['pid'];
 	
-	$query = "INSERT INTO  invoice (date, name, description, amount, paid, pid) VALUES ('$date', '$name', '$description', '$amount', $paid, '$pid');";
+	$query = "INSERT INTO  invoice (idate, name, description, paid, pid) VALUES ('$date', '$name', '$description', $paid, '$pid');";
 	
 	if($db->query($query)){
 		printf("success");

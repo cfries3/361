@@ -15,6 +15,8 @@
            
 
         public function display($i_numCSS, $i_numScripts) {
+        	include './../checkLoggedIn.php';
+        	
             echo "<html>\n<head>\n";
             $this->displayTitle();
             $this->displayCSS($i_numCSS);
@@ -70,6 +72,8 @@ _END;
 					break;
 				case "Reply":
 					include('content/newPost.php');
+				case "Login":
+					include('content/loginPage.php');
 				//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			}
 			echo "</div>\n" .

@@ -1,0 +1,28 @@
+.form{
+ width: 300px; 
+ height: 125px; 
+ margin-left: auto; 
+ margin-right: auto; 
+ margin-top: 15%;
+ background:url('./../images/green-background.jpg');
+ color:#34302D;
+ border:1px solid #18A113;
+ border-radius: 15px;
+ box-shadow: 5px 5px 10px black;
+ padding: 15px;
+ font-family:"Comic Sans MS", cursive, sans-serif;
+}
+.field{
+border-radius: 15px;
+padding-right:10px;
+padding-left:10px;
+margin-bottom:20px;
+position:relative;
+left:20px;
+}
+.buttonPos{
+text-align:right;
+}
+body{
+background:url('./../images/green-abstract-background1.jpg');
+}
