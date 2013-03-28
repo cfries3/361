@@ -39,3 +39,21 @@ textarea:focus, input:focus {
 p {
 	font-size:medium;
 }
+
+
+/*-- Reports --*/
+.leftalign {
+	text-align:left;
+}
+
+.one, .six {
+	width:200px;
+}
+
+.two, .three, .four {
+	width:110px;
+}
+
+.five {
+	width:75px;
+}

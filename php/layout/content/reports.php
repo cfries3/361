@@ -3,7 +3,7 @@
 	
 	echo "<div id=\"content\" class=\"floatLeft\">";
 	
-	if (isset($_POST['project'])) {
+	if (isset($_POST['task'])) {
 		printReport();
 	} else {
 		$obj_form = new Form("workReport.php");
@@ -18,28 +18,39 @@
 	
 	function printReport() {
 		$i_tid = get_post('task');
-		$time_start = get_post('from');
-		$time_end = get_post('to');
-		//session variable use
-		$result = queryMysql("SELECT * FROM punch AS pu, task AS ta WHERE pu.uid=1 AND pu.time_in>=$time_start AND pu.time_out<=$time_end AND pu.tid=$i_tid");
+		$time_start = strtotime(get_post('from'));
+		
+		$time_end = strtotime(get_post('to'));
+		//session variable use!!!!!!!!!!!!!!!!!!!!!
+		$result = queryMysql("SELECT * FROM punch WHERE uid=1 AND tid=$i_tid");
 		$i_numrows = mysql_num_rows($result);
 		
 		echo <<<_END
 			<table>
-				<tr>
-					<th>Task</th>
-					<th>Time In</th>
-					<th>Time Out</th>
-					<th>Completed</th>
-					<th>Auto Logout</th>
-					<th>Comment</th>
+				<tr class="leftalign">
+					<th class="one">Task</th>
+					<th class="two">Checked In</th>
+					<th class="three">Checked Out</th>
+					<th class="four">Completed</th>
+					<th class="five">Auto Logout</th>
+					<th class="six">Comment</th>
 				<tr>
 _END;
 		
 		for ($i = 0; $i < $i_numrows; ++$i) {
 			$str_row = mysql_fetch_row($result);
-			$time_in = date('F j, g:i', strtotime($str_row[1]));
-			$time_out = date('F j, g:i', strtotime($str_row[2]));
+
+			$day_in = date('Y-m-d g:i', strtotime($str_row[1]));
+			$time_in = strtotime($day_in);
+			if ($time_in < $time_start) {
+				break;
+			}
+			
+			$day_out = date('Y-m-d g:i', strtotime($str_row[2]));
+			$time_out = strtotime($day_in);
+			if ($time_out > $time_end) {
+				break;
+			}
 			if ($str_row[3] == 1) {
 				$str_done = "Yes";
 			} else {
@@ -57,8 +68,8 @@ _END;
 			echo <<<_END
 				<tr>
 					<td>$str_tTitle</td>
-					<td>$time_in</td>
-					<td>$time_out</td>
+					<td>$day_in</td>
+					<td>$day_out</td>
 					<td>$str_done</td>
 					<td>$str_auto</td>
 					<td>$str_comment</td>
