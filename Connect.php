@@ -1,6 +1,4 @@
 <?php 
-require_once './../databaseFunctionsOO.php';
-
 
 function validateUser($id, $type)
 {
@@ -15,7 +13,10 @@ function validateUser($id, $type)
 $username = $_POST['Username'];
 $password = $_POST['Password'];
 
-$db = connect_db();
+$db = new mysqli("localhost", "root", "", "mysql");
+if ($db->connect_error) {
+	die('Connect Error (' . $db->connect_errno . ') '. $db->connect_error);
+}
 
 $username = mysql_real_escape_string($username);
 $query = "SELECT password, uid, type

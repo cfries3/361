@@ -9,15 +9,14 @@
 	
 	
 	function printPosts() {
-		echo "<div id=\"accordion\">";
-		
+
 		if (!isset($_POST['topic_id'])) {
 			echo "<p>The topic could not be retrieved</p>";
 			return;
 		}
 		$i_tid = get_post('topic_id');
 		$str_author = get_post('creator');
-		$pResult = queryMysql("SELECT * FROM post AS p INNER JOIN topic AS t ON p.topic_id=t.topic_id WHERE t.topic_id=$i_tid ORDER BY p.pdate ASC LIMIT 1");
+		$pResult = queryMysql("SELECT * FROM post AS p, topic AS t WHERE p.topic_id=t.topic_id AND t.topic_id=$i_tid ORDER BY p.pdate ASC LIMIT 1");
 		
 		$str_pRow = mysql_fetch_row($pResult);
 		$i_postID = $str_pRow[0];
@@ -26,18 +25,19 @@
 		$str_tTitle = $str_pRow[7];
 		
 		echo <<<_END
+			<form action="./../pages/reply.php" method="POST">
+				<input type="hidden" name="taskID" value="$i_tid" />
+				<input type="hidden" name="creator" value="$str_author" />
+				<input type="hidden" name="title" value="$str_tTitle" />
+				<button class="floatRight forms" id="reply" type="submit" name="reply" value="1">Reply</button>
+			</form>
+			<div id="accordion">
 			<h3>
 				<table class="post top"><a href="#">
 					<tr>
 						<th class="col1">$str_tTitle</th>
 						<th class="col2">$str_author</th>
 						<th class="col3">$str_tDate</th>
-						<td><form action="./../pages/reply.php" method="POST">
-								<input type="hidden" name="taskID" value="$i_tid" />
-								<input type="hidden" name="creator" value="$str_author" />
-								<input type="hidden" name="title" value="$str_tTitle" />
-								<button class="floatRight" type="submit" name="reply" value="1">Reply</button>
-							</form></td>
 					</tr></a><br />
 				</table>
 			</h3>

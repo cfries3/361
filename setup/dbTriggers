@@ -1,0 +1,34 @@
+CREATE TRIGGER projectStatus
+	AFTER UPDATE ON task
+	FOR EACH ROW
+	BEGIN
+		DECLARE p_id INTEGER;
+		DECLARE num_tasks INTEGER;
+		DECLARE num_done INTEGER;
+		
+		SELECT pid
+			INTO p_id
+			FROM task
+			WHERE tid=NEW.tid;
+			
+		SELECT COUNT(*)
+			INTO num_tasks
+			FROM task
+			WHERE pid=p_id;
+			
+		SELECT COUNT(*)
+			INTO num_done
+			FROM task
+			WHERE pid=p_id AND status=1;
+			
+		IF num_tasks=num_done THEN
+			UPDATE project 
+				SET status=1 
+				WHERE pid=p_id;
+		ELSE
+			UPDATE project
+				SET status=0
+				WHERE pid=p_id;
+		END IF;
+		END $$
+		

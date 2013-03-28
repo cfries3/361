@@ -15,7 +15,6 @@
 		protected function printFormat() {
 			echo <<<_END
 				<form action="$this->str_action" method="POST">
-					<input type="hidden" name="sendtoemail" value="" />
 					<table class="forms">
 						<colgroup>
 							<col class="col1" />
@@ -26,8 +25,12 @@ _END;
 		
 		
 		
-		public function populateList($str_table) {
-			$result = queryMysql("Select * FROM $str_table");
+		public function populateList($str_table, $str_query) {
+			if ($str_query == NULL) {
+				$result = queryMysql("Select * FROM $str_table");
+			} else {
+				$result = queryMysql($str_query);
+			}
 			$i_numRows = mysql_num_rows($result);
 			
 			echo <<<_END
@@ -95,20 +98,21 @@ _END;
 		public function dateRange() {
 			echo <<<_END
 				<tr>
-					<td><label for="startDate">Select a date range</label></td>
-					<td><input type="text" id="from" name="startDate" /><br />to<br />
-						<input type="text" id="to" name="endDate" /></td>
+					<td><label for="from">Select a date range</label></td>
+					<td><input type="text" id="from" name="from" /><br />to<br />
+						<input type="text" id="to" name="to" /></td>
 				</tr>
 _END;
 			return;
 		}
+
 		
 		
 		
-		public function closeFormat() {
+		public function closeFormat($str_submit) {
 			echo <<<_END
 						<tr>
-							<td colspan="2" class="twoCol"><input type="submit" value="Submit" /></td>
+							<td colspan="2" class="twoCol"><input type="submit" value="$str_submit" /></td>
 						</tr>
 					</table>
 				</form>		

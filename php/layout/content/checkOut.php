@@ -28,6 +28,9 @@ require_once './../databaseFunctions.php';
 				</script>
 _END;
 			return 0;
+		} else if (isset($_POST['form'])) {
+			echo "<p class=\"forms\"><b>Checking out of task</b></p>";
+			return 0;
 		}
 		
 		//otherwise display current task

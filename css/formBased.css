@@ -36,6 +36,6 @@ textarea:focus, input:focus {
 
 /*-- Written Content --*/
 
-.forms p {
-	margin:100px 100px 50px 100px;
+p {
+	font-size:medium;
 }

@@ -15,8 +15,6 @@
            
 
         public function display($i_numCSS, $i_numScripts) {
-        	include './../checkLoggedIn.php';
-        	
             echo "<html>\n<head>\n";
             $this->displayTitle();
             $this->displayCSS($i_numCSS);
@@ -31,7 +29,7 @@
 				<div id="page">
 					<div id="main">
 						<div id="logo" class="floatLeft">
-							<img src="images/logo.png" alt="Company Name" />
+							<img src="./../../images/logo.png" alt="Company Name" />
 						</div>
 						<div id="vLine1" class="dividerLine floatLeft"></div>	
 						<div id="header" class="floatLeft">
@@ -70,10 +68,8 @@ _END;
 				case "Accounts":
 					include('content/accountList.php');
 					break;
-				case "Reply":
+				case "Create Post":
 					include('content/newPost.php');
-				case "Login":
-					include('content/loginPage.php');
 				//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			}
 			echo "</div>\n" .

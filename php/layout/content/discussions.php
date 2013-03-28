@@ -29,6 +29,7 @@
 					<td><form class="plain" action="./../pages/topic.php" method="POST">
 							<input type="hidden" name="topic_id" value="$i_tid" />
 							<input type="hidden" name="creator" value="$str_fname $str_lname" />
+							<input type="hidden" name="title" value="$str_tTitle" />
 							<input type="submit" name="submit" value="$str_tTitle" /><br />
 						</form></td>
 					<td>$str_fname $str_lname</td>
@@ -42,8 +43,13 @@ _END;
 	
 	function displayTopics() {
 		echo <<<_END
-			<button class="floatRight" id="createTopic" type="submit" name="create" value="1">Create Topic</button>
-
+			<form action="./../pages/reply.php" method="POST">
+				<input type="hidden" name="taskID" value=0 />
+				<input type="hidden" name="creator" value="" />
+				<input type="hidden" name="title" value="" />
+				<button class="floatRight forms" type="submit" name="create" value="1">Create Topic</button>
+			</form>
+		
 			<table id="topics">
 				<colgroup>
 					<col class="col1" />

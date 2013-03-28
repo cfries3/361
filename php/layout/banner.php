@@ -6,7 +6,7 @@
 	echo <<<_END
 		<div id="banner">
 			<p class="floatLeft">You are logged in as $str_usrType </p>
-			<p class="floatRight menuLink"><a href="./../logoutScript.php">Logout</a></p>
+			<p class="floatRight menuLink"><a href="pages/logout.html">Logout</a></p>
 		</div>
 _END;
 ?>

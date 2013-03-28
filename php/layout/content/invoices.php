@@ -27,8 +27,9 @@ function printOptions(){
 			<br>
 				select a sorting option
 				<select id="sort">
-				<option value="idate"> date </option>
 				<option value="name"> name </option>
+				<option value="date"> date </option>
+				<option value="amount"> amount </option>
 				<option value="paid"> paid/unpaid </option>
 			</select>
 			
@@ -106,6 +107,7 @@ function printScript(){
 				date: $(id + " input[name=date]").val(),
 				name: $(id + " input[name=name]").val(),
 				description: $(id + " textarea[name=description]").val(),
+				amount: $(id + " input[name=amount]").val(),
 				paid: $(id + " input:radio[name=paid]:checked").val(),
 				pid: $(id + " select").val(),
 				iid: $(id + " input[name=iid]").val()
@@ -122,6 +124,7 @@ function printScript(){
 				date: $("input[name=date]").val(),
 				name: $("input[name=name]").val(),
 				description: $("textarea[name=description]").val(),
+				amount: $("input[name=amount]").val(),
 				paid: $("input:radio[name=paid]:checked").val(),
 				pid: $("#sel").val()
   			  },
@@ -129,15 +132,6 @@ function printScript(){
 				window.alert(data);
 				displayContent();
   			  });	
-	}
-			
-	function toggle(el){
-		var child = $(el).find("textarea.desc");
-		if ($(child).css("display") != "none") {
-			$(child).css("display", "none");
-		}else{
-			$(child).css("display", "block");
-		}
 	}
 			
  
