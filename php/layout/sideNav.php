@@ -1,7 +1,7 @@
 <?php 
 	//update locations for links
 	//!!!!!TEMPORARY
-	$str_usrType = $_SESSION['type'] = "employee";
+	$str_usrType = $_SESSION['type'] = "admin";
 
 	switch ($str_usrType) {
 		case "employee":
@@ -54,9 +54,9 @@ _END;
 					<li><a href="pages/announce.php">Announcements</a></li>
 					<li><a href="pages/Accounting.html">Accounting</a>
 						<ul>
-							<li><a href="pages/Invoices.html">Invoices</a></li>
+							<li><a href="./../pages/invoice.php">Invoices</a></li>
 							<li><a href="pages/Transactions.html">Transactions</a></li>
-							<li><a href="pages/Accounts.html">Accounts</a></li>
+							<li><a href="./../pages/account.php">Accounts</a></li>
 							<li><a href="pages/FinancialReports.html">Financial Reports</a></li>
 						</ul>
 					</li>

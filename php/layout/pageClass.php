@@ -15,6 +15,7 @@
            
 
         public function display($i_numCSS, $i_numScripts) {
+        	include_once './../checkLoggedIn.php';
             echo "<html>\n<head>\n";
             $this->displayTitle();
             $this->displayCSS($i_numCSS);

@@ -12,6 +12,13 @@
 	
 }
 
+.desc{
+  
+  display:none;
+  resize: none
+  
+}
+
 .inv{
 	
 	margin:10px 10px 20px 50px;
