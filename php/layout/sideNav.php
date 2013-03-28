@@ -31,7 +31,7 @@
 						</ul>
 					</li>
 					<li><a href="./../pages/discussionBoard.php">Discussion Board</a></li>
-					<li><a href="./../pages/WorkReport.html">Work Report</a></li>
+					<li><a href="./../pages/workReport.php">Work Report</a></li>
 				</ul>
 			</div>		
 _END;
@@ -60,7 +60,7 @@ _END;
 							<li><a href="pages/FinancialReports.html">Financial Reports</a></li>
 						</ul>
 					</li>
-					<li><a href="pages/WorkReport.html">Work Report</a></li>
+					<li><a href="pages/workReport.php">Work Report</a></li>
 				</ul>
 			</div>
 _END;
