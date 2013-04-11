@@ -71,6 +71,13 @@ _END;
 					break;
 				case "Create Post":
 					include('content/newPost.php');
+					break;
+				case "Transactions":
+					include('content/trans.php');
+					break;
+				case "Finance":
+					include('content/finance.php');
+					break;
 				//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			}
 			echo "</div>\n" .

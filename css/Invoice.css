@@ -31,6 +31,13 @@
 	
 }
 
+.hline{
+	width:710px;
+	margin:0px 0px 0px 0px;
+	border-right:thin #A0A0A0 solid;
+	border-top:thin #A0A0A0 solid;
+}
+
 .title{
 	
 	font-family:Arial, Verdana;
@@ -47,6 +54,33 @@
 	font-size:13px;
 	font-weight:bold;
 	color:#86C543;
+	
+}
+
+.inv_table{
+	
+	border-collapse:collapse;
+	border:1px solid black;
+	
+}
+.inv_table td, .inv_table th{
+	
+	padding: 3px 10px;
+	border:1px solid black;
+	
+}
+.inv_table th{
+	
+	background-color:#86C543;
+	
+}
+#alt{
+	background-color:#D0F2AC;
+}
+#no_bord{
+	
+	border:0px;
+	text-align:right;
 	
 }
 

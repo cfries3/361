@@ -8,34 +8,35 @@ echo "</div>";
 
 function printOptions(){
 	echo "<div class='opt'><br>
-			select an associated project
-			<select id=\"proj\">";
+			select an account
+			<select id=\"acc\">";
 	
 	$db = connect_db();
 	
-	$query = "SELECT pid, title From project ORDER BY title";
+	$query = "SELECT aid, name From account ORDER BY name";
 	
 	$result = $db->query($query);
 	
 	printf("<option value='-1'> All </option>");
 	while ($row = $result->fetch_array(MYSQLI_ASSOC)){
-		printf("<option value='%s'> %s </option>", $row['pid'], $row['title']);
+		printf("<option value='%s'> %s </option>", $row['aid'], $row['name']);
 	}
 	
 	echo '</select>
 
 			<br>
-				select a sorting option
-				<select id="sort">
+			select a sorting option
+			<select id="sort">
 				<option value="name"> name </option>
-				<option value="idate"> date </option>
-				<option value="paid"> paid/unpaid </option>
+				<option value="tdate"> date </option>
+				<option value="amount"> amount </option>
+				<option value="designation"> designation </option>
 			</select>
 			
 			<br>
 
 			<button id="submit_btn" onclick="displayContent()">  Submit </button> 
-			<button class="floatRight new_invoice" onclick="displayForm()"> new invoice </button>
+			<button class="floatRight new_invoice" onclick="displayForm()"> new tansaction </button>
 			<br> <br>
 			<div id="hLine2" class="dividerLine floatLeft"></div>
 			
@@ -46,9 +47,9 @@ function printScript(){
 	echo '
 			<script>
     function displayContent(){
-  	  $.post("./../invoicesFunc.php",
+  	  $.post("./../transFunc.php",
   			  {
-  			    proj: $("#proj").val(),
+  			    acc: $("#acc").val(),
   			    sort: $("#sort").val()
   			  },
   			  function(data,status){
@@ -57,7 +58,7 @@ function printScript(){
   	}
 			
 	function displayForm(){
-  	  $.post("./../invoicesFunc.php",
+  	  $.post("./../transFunc.php",
   			  {
   			    display: "true"
   			  },
@@ -66,80 +67,79 @@ function printScript(){
   			  });
   	}
 
-	function deleteInvoiceConf(iid){
-		var answer = confirm("Are you sure you want to delete this invoice?");
+	function deleteTransConf(xid){
+		var answer = confirm("Are you sure you want to delete this transaction?");
 		if(answer){
-			deleteInvoice(iid);
+			deleteTrans(xid);
 		}
 			
 	}		
 			
-	function deleteInvoice(iid){
-  	  $.post("./../invoicesFunc.php",
+	function deleteTrans(xid){
+  	  $.post("./../transFunc.php",
   			  {
-  			    delete: iid
+  			    delete: xid
   			  },
   			  function(data,status){
-  				window.alert(data);
 				displayContent();
+				window.alert(data);
   			  });
   	}
 			
-	function editInvoice(iid){
-  	  $.post("./../invoicesFunc.php",
+	function editTrans(xid){
+  	  $.post("./../transFunc.php",
   			  {
-  			    edit: iid
+  			    edit: xid
   			  },
   			  function(data,status){
-			   var id = "#i" + iid;
+			   var id = "#x" + xid;
 				$(id).html(data);
 			
   			  });
   	}
 			
-	function validateEdit(iid){
-
-		var id = "#i" + iid;
-		$.post("./../invoicesFunc.php",
+	function validateEdit(xid){
+		var id = "#x" + xid;
+		$.post("./../transFunc.php",
   			  {
-  			    edit_val: iid,
-				date: $(id + " input[name=date]").val(),
+  			    edit_val: xid,
 				name: $(id + " input[name=name]").val(),
 				description: $(id + " textarea[name=description]").val(),
-				paid: $(id + " input:radio[name=paid]:checked").val(),
-				pid: $(id + " select").val(),
-				iid: $(id + " input[name=iid]").val()
-  			  },
-  			  function(data,status){
-				displayContent();
-  			  });	
-	}
-	
-	function validateNew(){
-		$.post("./../invoicesFunc.php",
-  			  {
-  			    new_val: "true",
-				date: $("input[name=date]").val(),
-				name: $("input[name=name]").val(),
-				description: $("textarea[name=description]").val(),
-				amount: $("input[name=amount]").val(),
-				paid: $("input:radio[name=paid]:checked").val(),
-				pid: $("#sel").val()
+				designation: $(id + " input:radio[name=designation]:checked").val(),
+				amount: $(id + " input[name=amount]").val(),
+				aid: $(id + " select").val(),
+				xid: $(id + " input[name=xid]").val()
   			  },
   			  function(data,status){
 				window.alert(data);
 				displayContent();
   			  });	
 	}
+	
+	function validateNew(){
+		$.post("./../transFunc.php",
+  			  {
+  			    new_val: "true",
+				name: $("input[name=name]").val(),
+				description: $("textarea[name=description]").val(),
+				amount: $("input[name=amount]").val(),
+				designation: $("input:radio[name=designation]:checked").val(),
+				aid: $("#sel").val()
+  			  },
+  			  function(data,status){
+				displayContent();
+				window.alert(data);
+  			  });	
+	}
 			
 	function toggle(el){
-    	var child = $(el).find("textarea.desc");
-    	if ($(child).css("display") != "none") {
-    	  $(child).css("display", "none");
-    	}else{
-    	  $(child).css("display", "block");
-    	}
-  	}
+    var child = $(el).find("textarea.desc");
+    if ($(child).css("display") != "none") {
+      $(child).css("display", "none");
+    }else{
+      $(child).css("display", "block");
+    }
+  }
 			
  
 </script>
@@ -149,4 +149,3 @@ function printScript(){
 }
 
 ?>
-

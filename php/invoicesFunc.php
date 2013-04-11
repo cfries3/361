@@ -15,6 +15,9 @@ if(isset($_POST['proj'])){
 }elseif (isset($_POST['new_val'])){
 	new_entry();
 }
+elseif (isset($_POST['iid'])){
+	show_inv();
+}
 
 
 function display_invoices(){
@@ -60,7 +63,11 @@ function display_invoices(){
 		}
 		
 		printf("<button onclick='deleteInvoiceConf(%s)'> delete invoice </button>", $row['iid']);
-		printf("<button onclick='editInvoice(%s)'> edit invoice </button> </div>", $row['iid']);
+		printf("<button onclick='editInvoice(%s)'> edit invoice </button>", $row['iid']);
+		printf("<form action='./../invoicesFunc.php' method='post'> 
+					<input type='hidden' name='iid' value='%s'>
+					<input type='submit' value='view invoice'> 
+				</form> </div>", $row['iid']);
 	}
 	printf("</div>");
 }
@@ -100,14 +107,13 @@ function edit_invoice(){
 	$date = $Data['idate'];
 	$name = $Data['name'];
 	$description = $Data['description'];
-	$amount = $Data['amount'];
 	$paid = $Data['paid'];
 	$pid = $Data['pid'];
 	
 	printf('
 	Name <input type="text" maxlength="30" name="name" value="%s"></input><br>
-	Date <input type="text" maxlength="30" name="date" value="%s"></input><br>
-	Description <textarea maxlength="1000" rows="10" cols="50" name="description" > %s </textarea><br>
+	Date <input type="text" maxlength="30" name="date" value="%s" ></input><br>
+	Description <textarea maxlength="1000" rows="10" cols="50" style="resize: none" name="description" > %s </textarea><br>
 	<input type="radio" name="paid" value="1"  >paid
 	<input type="radio" name="paid" value="0" checked="checked">unpaid<br>', $name, $date, $description);
 	
@@ -157,7 +163,7 @@ function display_form(){
 	printf('
 	Name <input type="text" maxlength="30" name="name" ></input><br>
 	Date <input type="text" maxlength="30" name="date" ></input><br>
-	Description <textarea maxlength="1000" rows="10" cols="50" name="description" ></textarea><br>
+	Description <textarea maxlength="1000" rows="10" cols="50" style="resize: none" name="description" ></textarea><br>
 	<input type="radio" name="paid" value="1"  >paid
 	<input type="radio" name="paid" value="0" checked="checked">unpaid<br>');
 	
@@ -191,4 +197,138 @@ function new_entry(){
 		printf("error");
 	}
 }
+
+function show_inv(){
+	$iid = $_POST['iid'];
+	printf("<html> 
+				<head> 
+					<link rel='stylesheet' type='text/css' href='./../css/Invoice.css' media='screen' />
+ 				</head> 
+				<body>
+					<div class='title'> Invoice </div>
+					<p> Invoice Nbr. %s</p>
+					<div class='hLine'></div>
+					<p class='floatLeft'>
+						Company Name<br />
+						At Company Address<br />
+						City<br />
+						Postal Code<br />
+						Telephone Number<br /></p>
+					<div class='hLine'></div>	", $iid);
+	$db = connect_db();
+	
+	$query = "SELECT pid From invoice WHERE iid='$iid' ";
+	
+	$result = $db->query($query);
+	
+	$row = $result->fetch_array(MYSQLI_ASSOC);
+	$proj = $row['pid'];
+	
+	$query = "SELECT title, description From project WHERE pid='$proj' ";
+	
+	$result = $db->query($query);
+	
+	$row = $result->fetch_array(MYSQLI_ASSOC);
+	
+	$proj_title = $row['title'];
+	$proj_desc = $row['description'];
+	
+	printf("<br><p class='sub-title'> %s </p>
+			<p>
+				%s 
+			</p><br><br>", $proj_title, $proj_desc);
+	printf("<table class='inv_table' >
+				<tr>
+				<th>Task Name</th>
+				<th>Task Description</th>
+				<th>Hourly Rate</th>
+				<th>Hours worked</th>
+				<th>Amount</th>
+				</tr>");
+	
+	$query = "SELECT tid, title, description, hrate From task WHERE pid='$proj' ";
+	
+	$result = $db->query($query);
+	
+	$sub_total = 0;
+	$i = 0;
+	while ($row = $result->fetch_array(MYSQLI_ASSOC)){
+		$i++;
+		$tid = $row['tid'];
+		
+		$query2 = "SELECT UNIX_TIMESTAMP(time_out) AS time_out, UNIX_TIMESTAMP(time_in) AS time_in  From punch WHERE tid='$tid' ";
+		$result2 = $db->query($query2);
+		
+		$total = new DateTime('00:00');
+		
+		while($row2 = $result2->fetch_array(MYSQLI_ASSOC)){
+			if (!is_null($row2['time_out']) && !is_null($row2['time_in'])){
+				$out = date('Y-m-d H:i:s', $row2['time_out']);
+				$in = date('Y-m-d H:i:s', $row2['time_in']);
+				
+				$out = new DateTime($out);
+				$in = new DateTime($in);
+				$time = $out->diff($in);
+				
+				$total->add($time);
+				
+			}
+			
+			
+		}
+		$zero = new DateTime('00:00');
+		$total = $total->diff($zero);
+		
+		$hrate = $row['hrate'];
+		$amount = $total->h * $hrate + $total->i / 60 * $hrate + $total->s / 3600 * $hrate;
+		
+		if($i % 2 == 0){
+			printf("<tr id='alt'>");
+		}
+		else{
+			printf("<tr>");
+		}
+		printf("<td> %s </td>
+				<td> %s </td>
+				<td> %.2f </td>
+				<td> %s </td>
+				<td> %.2f </td>
+				</tr>", $row['title'], $row['description'], $hrate, $total->format("%H:%I:%S"), $amount);
+		$sub_total += $amount;
+	}
+	printf("
+	<tr>
+	<td colspan='4' id='no_bord'>SUBTOTAL</td>
+	<td> %.2f </td>
+	</tr>", $sub_total);
+	
+	$GST = $sub_total*0.05;
+	printf("
+	<tr>
+	<td colspan='4' id='no_bord'>GST 5%%</td>
+	<td> %.2f </td>
+	</tr>", $GST);
+	
+	$QST = $sub_total*0.09975;
+	printf("
+	<tr>
+	<td colspan='4' id='no_bord'>QST 9.9975%%</td>
+	<td> %.2f </td>
+	</tr>", $QST);
+	
+	$big_total = $sub_total + $QST + $GST;
+	printf("
+	<tr>
+	<td colspan='4' id='no_bord'>TOTAL</td>
+	<td> %.2f </td>
+	</tr>", $big_total);
+	
+	printf("</table>");
+	printf("</body>
+			</html>");
+	
+}
+
+
+
 ?>

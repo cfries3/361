@@ -46,7 +46,7 @@ _END;
 					<li><a href="./../pages/ProjectList.php">Projects</a>
 						<ul>
 							<li><a href="./../pages/ProjectList.php">Project List</a></li>
-							<li><a href="pages/checkingOut.php">Check Out</a></li>
+							<li><a href="./../pages/checkingOut.php">Check Out</a></li>
 							<li><a href="pages/ManageProjects.html">Manage Projects</a></li>
 						</ul>
 					</li>
@@ -55,12 +55,12 @@ _END;
 					<li><a href="pages/Accounting.html">Accounting</a>
 						<ul>
 							<li><a href="./../pages/invoice.php">Invoices</a></li>
-							<li><a href="pages/Transactions.html">Transactions</a></li>
+							<li><a href="./../pages/transaction.php">Transactions</a></li>
 							<li><a href="./../pages/account.php">Accounts</a></li>
-							<li><a href="pages/FinancialReports.html">Financial Reports</a></li>
+							<li><a href="./../pages/finReport.php">Financial Reports</a></li>
 						</ul>
 					</li>
-					<li><a href="pages/workReport.php">Work Report</a></li>
+					<li><a href="./../pages/workReport.php">Work Report</a></li>
 				</ul>
 			</div>
 _END;
