@@ -47,7 +47,7 @@ _END;
 						<ul>
 							<li><a href="./../pages/ProjectList.php">Project List</a></li>
 							<li><a href="./../pages/checkingOut.php">Check Out</a></li>
-							<li><a href="pages/ManageProjects.html">Manage Projects</a></li>
+							<li><a href="./../pages/projectManagement.php">Manage Projects</a></li>
 						</ul>
 					</li>
 					<li><a href="./../pages/discussionBoard.php">Discussion Board</a></li>

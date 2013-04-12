@@ -142,7 +142,6 @@ function edit_trans_validated(){
 
 	$query = "UPDATE transaction SET name = '$name', description = '$Desc', amount = '$amount', designation = '$design', aid = '$acc' WHERE xid='$xid'";
 
-	printf("%s", $query);
 	
 	if($db->query($query)){
 		printf("success");

@@ -78,6 +78,9 @@ _END;
 				case "Finance":
 					include('content/finance.php');
 					break;
+				case "Project Management":
+					include('content/PManage.php');
+					break;
 				//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			}
 			echo "</div>\n" .
