@@ -13,13 +13,15 @@ function printOptions(){
 	
 	$db = connect_db();
 	
-	$query = "SELECT pid, title From project ORDER BY title";
+	$query = "SELECT pid, title, uid From project ORDER BY title";
 	
 	$result = $db->query($query);
 	
 	printf("<option value='-1'> All </option>");
 	while ($row = $result->fetch_array(MYSQLI_ASSOC)){
-		printf("<option value='%s'> %s </option>", $row['pid'], $row['title']);
+		if($_SESSION['type'] != 'client' || $row['uid'] === $_SESSION['userid']){
+			printf("<option value='%s'> %s </option>", $row['pid'], $row['title']);
+		}
 	}
 	
 	echo '</select>
@@ -34,9 +36,11 @@ function printOptions(){
 			
 			<br>
 
-			<button id="submit_btn" onclick="displayContent()">  Submit </button> 
-			<button class="floatRight new_invoice" onclick="displayForm()"> new invoice </button>
-			<br> <br>
+			<button id="submit_btn" onclick="displayContent()">  Submit </button>';
+	if($_SESSION['type'] != 'client' || $row['uid'] === $_SESSION['userid']){
+		echo '<button class="floatRight new_invoice" onclick="displayForm()"> new invoice </button>';
+	}
+	echo '	<br> <br>
 			<div id="hLine2" class="dividerLine floatLeft"></div>
 			
 			</div>';

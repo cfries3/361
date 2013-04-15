@@ -81,6 +81,9 @@ _END;
 				case "Project Management":
 					include('content/PManage.php');
 					break;
+				case "Punches":
+					include('content/viewPunches.php');
+					break;
 				//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			}
 			echo "</div>\n" .

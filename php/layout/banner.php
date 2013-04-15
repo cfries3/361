@@ -1,7 +1,7 @@
 <?php 
 
 	//!!!!!TEMPORARY
-	$str_usrType = $_SESSION['type'] = "employee";
+	$str_usrType = $_SESSION['type'];
 	
 	echo <<<_END
 		<div id="banner">

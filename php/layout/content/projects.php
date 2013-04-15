@@ -52,21 +52,23 @@ _END;
 			$str_pName = $str_pRow[1];
 		
 			$str_checkmark = checkComplete($str_pRow[3]);
-		
-			echo <<<_END
-			<li class="pMenu">
-				<ul>
-					<li class="clickable"><a href="#">$str_pName</a><img class="floatRight" src="$str_checkmark" /></li>
-					<li class="dropdown project">
-						<ul>
+			
+			if ($_SESSION['type'] != 'client' || $str_pRow[5] === $_SESSION['userid']){
+				echo <<<_END
+				<li class="pMenu">
+					<ul>
+						<li class="clickable"><a href="#">$str_pName</a><img class="floatRight" src="$str_checkmark" /></li>
+						<li class="dropdown project">
+							<ul>
 _END;
-			printTasks($str_pRow[0]);
-			echo <<<_END
-						</ul>
-					</li>
-				</ul>
-			</li>
+				printTasks($str_pRow[0]);
+				echo <<<_END
+							</ul>
+						</li>
+					</ul>
+				</li>
 _END;
+			}
 		}
 		echo "</ul>";
 		return;
@@ -94,6 +96,14 @@ _END;
 							<p>$str_describe</p>
 							<form action="./../timePunch.php" method="POST">
 								<input type="hidden" name="taskID" value="$i_taskID" />
+_END;
+			if ($_SESSION['type'] === "admin"){
+				echo <<<_END
+								<button class="checkOut floatRight" type="submit" name="view_t" value="1">View punches</button>
+_END;
+														
+			}
+			echo <<<_END
 								<button class="checkOut floatRight" type="submit" name="out" value="1">Check out</button>
 								<button class="checkIn floatRight" type="submit" name="in" value="1">Check In</button><br /><br />
 							</form>

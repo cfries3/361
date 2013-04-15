@@ -9,6 +9,9 @@ require_once 'databaseFunctions.php';
 	if (isset($_POST['in'])) {
 		punchIn($i_tid, 1); //GET USER ID FROM SESSION VAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	}
+	if (isset($_POST['view_t'])) {
+		viewPunch($i_tid);
+	}
 
 
 	function autoCheckOut() {
@@ -41,5 +44,17 @@ _END;
 _END;
 		}
 		echo "<script>window.location='./pages/checkingOut.php'</script>";
+	}
+	
+	function viewPunch($i_tid){
+		echo <<<_END
+			<form name="form" action="./pages/viewPunches.php" method="post">
+			<input type="hidden" name="tid" value="$i_tid"></input>
+			</form>
+			<script>
+				document.form.submit();
+			</script>
+_END;
+		
 	}
 ?>

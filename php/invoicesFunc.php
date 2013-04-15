@@ -1,6 +1,7 @@
 <?php
 
 require_once './databaseFunctionsOO.php';
+include_once './checkLoggedIn.php';
 
 if(isset($_POST['proj'])){
 	display_invoices();
@@ -26,8 +27,21 @@ function display_invoices(){
 	$proj = $_POST['proj'];
 	$sort = $_POST['sort'];
 	
+	$type = $_SESSION['type'];
+	$id = $_SESSION['userid'];
+	
 	if ($proj == -1){
-		$query = "SELECT * From invoice ORDER BY $sort";
+		if($type != 'client'){
+			$query = "SELECT * From invoice ORDER BY $sort";
+		}else{
+			$query = "	SELECT invoice.*, project.uid AS puid 
+						From invoice 
+							INNER JOIN project 
+								ON invoice.pid = project.pid 
+						WHERE project.uid='$id' 
+						ORDER BY $sort";
+		}
+		
 	}else{
 		$query = "SELECT * From invoice WHERE pid='$proj' ORDER BY $sort";
 	}
@@ -62,8 +76,10 @@ function display_invoices(){
 			printf("Associated project: %s <br>", $title);
 		}
 		
-		printf("<button onclick='deleteInvoiceConf(%s)'> delete invoice </button>", $row['iid']);
-		printf("<button onclick='editInvoice(%s)'> edit invoice </button>", $row['iid']);
+		if($type != 'client'){
+			printf("<button onclick='deleteInvoiceConf(%s)'> delete invoice </button>", $row['iid']);
+			printf("<button onclick='editInvoice(%s)'> edit invoice </button>", $row['iid']);
+		}
 		printf("<form action='./../invoicesFunc.php' method='post'> 
 					<input type='hidden' name='iid' value='%s'>
 					<input type='submit' value='view invoice'> 

@@ -1,5 +1,5 @@
 <?php 
-include 'C:\xampp\htdocs\webs\BusinnessPortalTests\CheckConnected.php';
+//include 'C:\xampp\htdocs\webs\BusinnessPortalTests\CheckConnected.php';
 
 ?>
 
@@ -45,7 +45,7 @@ function changedisplay(proj){
 <body>
 
 <?php
-	include 'User.php';
+	/*include 'User.php';
 	include 'AdminUser.php';
 	include 'EmployeeUser.php';
 
@@ -87,6 +87,8 @@ function changedisplay(proj){
 		while (($TaskRow = $tasks->fetch_array(MYSQLI_NUM)) && ($TaskRow[1] == $row[1]));
 		printf("</div>");
 	}
+	*/
+	printf("%s", hash("sha512", "Client"));
 
 ?>
 
