@@ -2,9 +2,9 @@
 	require_once './../databaseFunctions.php';
 	
 	
-	echo "<div id=\"content\" class=\"floatLeft\">";
+
 	listAnnouncements();
-	echo "</div>";
+
 	
 	function listAnnouncements() {
 		$aResult = queryMysql("SELECT * FROM announcement ORDER BY adate DESC");

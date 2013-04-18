@@ -1,7 +1,7 @@
 <?php
 	include './../layout/formClass.php';
 	
-	echo "<div id=\"content\" class=\"floatLeft\">";
+
 	
 	if (isset($_POST['task'])) {
 		printReport();
@@ -12,7 +12,7 @@
 		$obj_form->dateRange();
 		$obj_form->closeFormat("Get Report");
 	}
-	echo "</div>";
+
 
 	
 	

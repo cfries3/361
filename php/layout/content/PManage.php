@@ -1,6 +1,6 @@
 <?php
 
-echo "<div id=\"content2\" class=\"floatLeft\">";
+
 printf('<div class="menu"><ul class="man">
 <li class="man"><div class="man" onclick="new_proj()">New Project</div></li>
 <li class="man"><div class="man" onclick="delete_proj()">Delete Project</div></li>
@@ -263,10 +263,4 @@ printf('<script>
 		
 		</script><div id="Message"></div><div id="Results"></div>');
 
-
-
-
-
-
-echo "</div>";
 ?>

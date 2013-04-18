@@ -8,7 +8,7 @@ $query = "SELECT name, aid From account ORDER BY name";
 
 $result = $db->query($query);
 
-echo "<div id=\"content\" class=\"floatLeft\">";
+
 
 printf("<div class='opt'> <br>
 			Select an account <select id='acc' name='acc'>
@@ -49,6 +49,6 @@ printf('<script>
 
 printf('<br>
 <div id="Results"></div>');
-echo "</div>";
+
 
 ?>

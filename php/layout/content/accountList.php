@@ -1,10 +1,10 @@
 <?php
 require_once './../databaseFunctionsOO.php';
 
-echo "<div id=\"content\" class=\"floatLeft\">";
+
 printList();
 printScript();
-echo "</div>";
+
 
 function printList(){
 	

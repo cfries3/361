@@ -4,9 +4,9 @@
 	require_once './../databaseFunctions.php';
 	
 	
-	echo "<div id=\"content\" class=\"floatLeft\">";
+
 	displayTopics();
-	echo "</div>";
+
 	
 	
 	function printTopic($result, $i_numTRows) {

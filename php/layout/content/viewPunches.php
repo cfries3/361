@@ -12,7 +12,6 @@ ORDER BY punch_id";
 
 $punches = $db->query($query);
 
-printf("<div id='content' class='floatLeft'>");
 if($punches->num_rows < 1){
 
 	printf("No data found for this task");
@@ -46,5 +45,4 @@ while ($row = $punches->fetch_array(MYSQLI_ASSOC)){
 
 printf("</table>");
 }
-printf("</div>");
 ?>
