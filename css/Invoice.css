@@ -88,3 +88,8 @@
 	height:500px;
 	overflow:auto;
 }
+
+#Message{
+	text-align:center;
+	color: red;
+}

@@ -18,7 +18,7 @@ if(isset($_POST['delete'])){
 function delete_account(){
 	$db = connect_db();
 	
-	$aid = $_POST['aid'];
+	$aid = $db->real_escape_string($_POST['aid']);
 	$query = "DELETE FROM account WHERE aid='$aid'";
 	
 	
@@ -50,7 +50,8 @@ function display_form(){
 	
 	
 	printf('
-	Name <input type="text" maxlength="30" name="name" value="%s"></input><br>
+	<p id="Message"></p>
+	NAME <input type="text" maxlength="30" name="name" value="%s"></input><br>
 	<input type="radio" name="designation" value="income"  >income
 	<input type="radio" name="designation" value="expense" checked="checked">expense<br>
 	<input type="hidden" name="aid" value="%s">
@@ -58,11 +59,13 @@ function display_form(){
 }
 
 function update_db(){
-	$name = $_POST['name'];
-	$design = $_POST['designation'];
-	$aid = $_POST['aid'];
-	
 	$db = connect_db();
+	
+	
+	$name = $db->real_escape_string($_POST['name']);
+	$design = $db->real_escape_string($_POST['designation']);
+	$aid = $db->real_escape_string($_POST['aid']);
+	
 	
 	$query = "UPDATE account SET name = '$name', designation = '$design' WHERE aid='$aid'";
 	
@@ -76,17 +79,18 @@ function update_db(){
 
 function display_empty_form(){
 	printf('
-	Name <input type="text" maxlength="30" name="name" ></input><br>
+	<p id="Message"></p>
+	NAME <input type="text" maxlength="30" name="name" ></input><br>
 	<input type="radio" name="designation" value="income"  >income
 	<input type="radio" name="designation" value="expense"">expense<br>
 	<button onclick="new_submit()"> validate </button> <button onclick="location.reload()"> cancel </button>');
 }
 
 function create_new(){
-	$name = $_POST['name'];
-	$design = $_POST['designation'];
-	
 	$db = connect_db();
+	
+	$name = $db->real_escape_string($_POST['name']);
+	$design = $db->real_escape_string($_POST['designation']);
 	
 	$query = "INSERT account (name, designation) VALUES ('$name', '$design');";
 	

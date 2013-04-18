@@ -1,6 +1,6 @@
-.menu ul
+.menu
 { 
-	text-align:center; 
+	margin: 20px 25px;
 }
 ul.man
 {
@@ -20,7 +20,7 @@ div.man
 display:block;
 font-weight:bold;
 color:#FFFFFF;
-background-color:#98bf21;
+background-color:#86C543;
 text-align:center;
 padding:4px 5px;
 text-decoration:none;
@@ -29,9 +29,14 @@ cursor:pointer;
 }
 div.man:hover, div.man:active
 {
-background-color:#7A991A;
+background-color:#78af11;
 }
 #content2 {
 	width:750px;
 	margin:10px 20px 20px 20px;
+}
+
+#Message{
+	text-align:center;
+	color: red;
 }

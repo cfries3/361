@@ -67,6 +67,7 @@ function printScript(){
   			  },
   			  function(data,status){
   				$("#Results").html(data);
+				addDatePick($("input[name=date]"));
   			  });
   	}
 
@@ -97,14 +98,16 @@ function printScript(){
   			  function(data,status){
 			   var id = "#i" + iid;
 				$(id).html(data);
-			
+				addDatePick($("input[name=date]"));
   			  });
+		
   	}
 			
 	function validateEdit(iid){
 
 		var id = "#i" + iid;
-		$.post("./../invoicesFunc.php",
+		if(checkFormat()){
+			$.post("./../invoicesFunc.php",
   			  {
   			    edit_val: iid,
 				date: $(id + " input[name=date]").val(),
@@ -117,23 +120,25 @@ function printScript(){
   			  function(data,status){
 				displayContent();
   			  });	
+		}
 	}
 	
 	function validateNew(){
-		$.post("./../invoicesFunc.php",
+		if(checkFormat()){
+			$.post("./../invoicesFunc.php",
   			  {
   			    new_val: "true",
 				date: $("input[name=date]").val(),
 				name: $("input[name=name]").val(),
 				description: $("textarea[name=description]").val(),
-				amount: $("input[name=amount]").val(),
 				paid: $("input:radio[name=paid]:checked").val(),
 				pid: $("#sel").val()
   			  },
   			  function(data,status){
 				window.alert(data);
 				displayContent();
-  			  });	
+  			  });
+		}	
 	}
 			
 	function toggle(el){
@@ -145,11 +150,33 @@ function printScript(){
     	}
   	}
 			
+	
+	function checkFormat(){
+			var date = $("input[name=date]").val();
+			var regexp = new RegExp("[0-9]{4}-(1[0-2]|0[1-9])-(3[0-1]|2[0-9]|1[0-9]|0[1-9])");
+			var notEmp = new RegExp("[a-z]|[0-9]", "i");
+			if( !regexp.test(date)){
+				$("#Message").html("<p>***** Please use the following format for the date input field: yyyy-mm-dd *****</p>");
+				return false;
+			}
+			if( !notEmp.test($("input[name=name]").val())){
+				$("#Message").html("<p>***** Please enter a value in the NAME field *****</p>");
+				return false;
+			}
+			if( !notEmp.test($("textarea[name=description]").val()) ){
+				$("#Message").html("<p>***** Please enter a value in the DESCRIPTION field *****</p>");
+				return false;
+			}
+			$("#Message").html("<p></p>");
+			return true;
+	}
  
 </script>
 
+			<div id="Message"></div>
 <br>
-<div id="Results"></div>';
+<div id="Results"></div>
+';
 }
 
 ?>
