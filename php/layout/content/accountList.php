@@ -29,6 +29,7 @@ function printScript(){
 	echo '
 			<script>
    	function delete_conf(id){
+	$("#Message").html("<p></p>");
   	  $.post("./../accountsFunc.php",
   			  {
 				delete:"true",
@@ -49,6 +50,7 @@ function printScript(){
 	}
 			
 	function edit_acc(id){
+		$("#Message").html("<p></p>");
 		var id2 = "#a" + id;
   	  $.post("./../accountsFunc.php",
   			  {
@@ -84,7 +86,7 @@ function printScript(){
 	}
 
 	function create_acc(){
-			
+		$("#Message").html("<p></p>");
 		$.post("./../accountsFunc.php",
   			  {
   			    display: "true"
@@ -97,6 +99,7 @@ function printScript(){
 	}
 			
 	function new_submit(){
+		$("#Message").html("<p></p>");
 		if(checkFormat()){
 			$.post("./../accountsFunc.php",
   			  {
