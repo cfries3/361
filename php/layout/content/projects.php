@@ -2,10 +2,13 @@
 	require_once './../databaseFunctions.php';
 	
 	
-	echo "<div id=\"content\" class=\"floatLeft\">";
-	printAnnouncements();
-	printProjects();
-	echo "</div>";
+	if (strcmp($_SESSION['type'], "client") == 0) {
+		printProjects($_SESSION['userid']);
+	} else {
+		printAnnouncements();
+		printProjects(0);
+	}
+
 	
 	
 	
@@ -32,7 +35,7 @@ _END;
 		for ($h = 0; $h < $i_numARows && $h < 3; ++$h) {
 			$str_aTitle = mysql_result($aResult, $h, 'title');
 			$str_aID = mysql_result($aResult, $h, 'announce_id');
-			echo "<a style=\"color:#34302D; font-weight:normal;\" href=\"announce.php#$str_aID\">$str_aTitle</a><br />"; //LINK TO ANNOUNCEMENTS PAGE ANCHORED TO ANNOUNCEMENT CLICKED ON!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			echo "<a style=\"color:#34302D; font-weight:normal;\" href=\"announce.php#$str_aID\">$str_aTitle</a><br />"; 
 		}
 		
 		echo "</p>" .
@@ -42,9 +45,14 @@ _END;
 	
 	
 	
-	function printProjects() {
+	function printProjects($i_id) {
 		echo "<ul id=\"pList\" class=\"container\">";
-		$pResult = queryMysql("SELECT * FROM project");
+		if ($i_id == 0) {
+			$pResult = queryMysql("SELECT * FROM project");
+		} else {
+			//!!!!!!!!!!!!!!!!!!!!!!Might have to change database
+			$pResult = queryMysql("SELECT * FROM project WHERE uid=$i_id");
+		}
 		$i_numPRows = mysql_num_rows($pResult);
 		
 		for ($i = 0; $i < $i_numPRows; ++$i) {
@@ -52,23 +60,21 @@ _END;
 			$str_pName = $str_pRow[1];
 		
 			$str_checkmark = checkComplete($str_pRow[3]);
-			
-			if ($_SESSION['type'] != 'client' || $str_pRow[5] === $_SESSION['userid']){
-				echo <<<_END
-				<li class="pMenu">
-					<ul>
-						<li class="clickable"><a href="#">$str_pName</a><img class="floatRight" src="$str_checkmark" /></li>
-						<li class="dropdown project">
-							<ul>
+		
+			echo <<<_END
+			<li class="pMenu">
+				<ul>
+					<li class="clickable"><a href="#">$str_pName</a><img class="floatRight" src="$str_checkmark" /></li>
+					<li class="dropdown project">
+						<ul>
 _END;
-				printTasks($str_pRow[0]);
-				echo <<<_END
-							</ul>
-						</li>
-					</ul>
-				</li>
+			printTasks($str_pRow[0], $i_id);
+			echo <<<_END
+						</ul>
+					</li>
+				</ul>
+			</li>
 _END;
-			}
 		}
 		echo "</ul>";
 		return;
@@ -76,7 +82,7 @@ _END;
 	
 	
 	
-	function printTasks($str_pid) {
+	function printTasks($str_pid, $i_id) {
 		$str_tQuery = "SELECT * FROM task WHERE (pid=$str_pid)"; //!!!!!!!!Find some way to sort them by order!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		$tResult = queryMysql($str_tQuery);
 		$i_numTRows = mysql_num_rows($tResult);
@@ -88,28 +94,28 @@ _END;
 			$str_describe = $str_tRow[2];
 		
 			$str_checkmark = checkComplete($str_tRow[3]);
-				
-			echo <<<_END
-				<li class="clickable"><a href="#">$str_tName</a><img class="floatRight" src="$str_checkmark" /></li>
-					<li class="dropdown task">
-						<div>
-							<p>$str_describe</p>
-							<form action="./../timePunch.php" method="POST">
-								<input type="hidden" name="taskID" value="$i_taskID" />
-_END;
-			if ($_SESSION['type'] === "admin"){
+			
+			if ($i_id == 0) {
 				echo <<<_END
-								<button class="checkOut floatRight" type="submit" name="view_t" value="1">View punches</button>
+					<li class="clickable"><a href="#">$str_tName</a><img class="floatRight" src="$str_checkmark" /></li>
+						<li class="dropdown task">
+							<div>
+								<p>$str_describe</p>
+								<form action="./../timePunch.php" method="POST">
+									<input type="hidden" name="taskID" value="$i_taskID" />
+									<button class="checkOut floatRight" type="submit" name="out" value="1">Check out</button>
+									<button class="checkIn floatRight" type="submit" name="in" value="1">Check In</button><br /><br />
+								</form>
+							</div>
+						</li>
 _END;
-														
+			} else {
+				echo <<<_END
+					<li class="clickable"><a href="#">$str_tName</a><img class="floatRight" src="$str_checkmark" /></li>
+						<li class="dropdown task">
+						</li>
+_END;
 			}
-			echo <<<_END
-								<button class="checkOut floatRight" type="submit" name="out" value="1">Check out</button>
-								<button class="checkIn floatRight" type="submit" name="in" value="1">Check In</button><br /><br />
-							</form>
-						</div>
-					</li>
-_END;
 		}
 		return;
 	}

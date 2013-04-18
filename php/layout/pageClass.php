@@ -44,6 +44,7 @@ _END;
             include('sideNav.php'); 
 			echo "<div id=\"vLine2\" class=\"dividerLine floatLeft\"></div>\n";
 			//page content
+			echo "<div id=\"content\" class=\"floatLeft\">";
 			switch ($this->str_title) {
 				case "Project List":
 					include('content/projects.php');
@@ -84,10 +85,10 @@ _END;
 				case "Punches":
 					include('content/viewPunches.php');
 					break;
-				//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			}
 			echo "</div>\n" .
-				"</div>\n";
+				 "</div>\n" .
+				 "</div>\n";
 			//footer
 			include('footer.php');
 			echo "</body>\n" .

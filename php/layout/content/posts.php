@@ -3,9 +3,9 @@
 	
 	error_reporting(0);
 	
-	echo "<div id=\"content\" class=\"floatLeft\">";
+
 	printPosts();
-	echo "</div>";
+
 	
 	
 	

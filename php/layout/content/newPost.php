@@ -3,7 +3,7 @@
 require_once './../databaseFunctions.php';
 require_once './../layout/formClass.php';
 
-	echo "<div id=\"content\" class=\"floatLeft\">";
+
 	
 	$i_tid = get_POST('taskID');
 	$str_author = get_POST('creator');
@@ -55,7 +55,7 @@ require_once './../layout/formClass.php';
 			$obj_form2->closeFormat("Submit");
 		}
 	}
-	echo "</div>";
+
 
 	
 	

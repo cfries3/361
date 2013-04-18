@@ -1,10 +1,9 @@
 <?php
 require_once './../databaseFunctionsOO.php';
 
-echo "<div id=\"content\" class=\"floatLeft\">";
 printOptions();
 printScript();
-echo "</div>";
+
 
 function printOptions(){
 	echo "<div class='opt'><br>

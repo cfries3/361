@@ -3,14 +3,14 @@
 //why are fonts different
 require_once './../databaseFunctions.php';
 
-	echo "<div id=\"content\" class=\"floatLeft\">";
+
 	$i_punchID = printTaskInfo(1); //change to logged in uid!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	if ($i_punchID!=0) {
 		checkPost($i_punchID);
 		checkOutForm();
 		printPunch($i_punchID);
 	}
-	echo "</div>";
+
 
 	
 	
