@@ -37,16 +37,31 @@ if(isset($_POST['new_p'])){
 
 
 function new_project(){
+	$db = connect_db();
+	
+	$query = "SELECT employee.fname, employee.lname, employee.uid
+				FROM employee
+				INNER JOIN user ON user.uid = employee.uid
+				WHERE user.type =  'admin'";
+	
+	$result = $db->query($query);
+	
 	printf('<table>
 			<tr>
-				<td>title</td>
+				<td>TITLE</td>
 				<td><input type="text" maxlength="30" name="title"></input></td>
 			</tr>
 			<tr>
-				<td>description</td>
+				<td>DESCRIPTION</td>
 				<td><textarea maxlength="1000" rows="10" cols="50" style="resize: none" name="description" ></textarea></td>
 			</tr>
-			</table>
+			<tr>
+				<td>CONTACT PERSON</td>
+				<td><select name="contact">');
+	while ($row = $result->fetch_array(MYSQLI_ASSOC)){
+		printf("<option value='%s'>%s %s</option>", $row['uid'], $row['fname'], $row['lname']);
+	}
+	printf('</select></td></tr></table>
 			<input type="hidden" name="status" value="0"></input>
 			<button onclick="new_proj_sub()"> submit </button>');
 	
@@ -55,11 +70,12 @@ function new_project(){
 function new_project_sub(){
 	$db = connect_db();
 	
-	$title = $_POST['title'];
-	$description = $_POST['description'];
-	$status = $_POST['status'];
+	$title = $db->real_escape_string($_POST['title']);
+	$description = $db->real_escape_string( $_POST['description']);
+	$contact = $db->real_escape_string( $_POST['contact']);
+	$status = $db->real_escape_string($_POST['status']);
 	
-	$query = "INSERT INTO  project (title, description, status) VALUES ('$title', '$description', $status)";
+	$query = "INSERT INTO  project (title, description, status, contact) VALUES ('$title', '$description', $status, '$contact')";
 	
 	if($db->query($query)){
 		printf("success");
@@ -76,18 +92,24 @@ function delete_project(){
 	$query_p = "SELECT pid, title From project ORDER BY title";
 	
 	$result_p = $db->query($query_p);
-	printf("Which project do you wish to delete <select name='pid'>");
+	
+	if($result_p->num_rows < 1){
+		printf("<div style='text-align:center'>Sorry there is currently no project to display");
+		die();
+	}
+	printf("<div style='text-align:center'>Which project do you wish to delete <select name='pid'>");
 	while ($row_p = $result_p->fetch_array(MYSQLI_ASSOC)){
 		printf("<option value='%s'> %s </option>", $row_p['pid'], $row_p['title']);
 	}
-	printf("</select><button onclick='delete_proj_conf()'>Submit</button>");
+	printf("</select><br><button onclick='delete_proj_conf()'>Submit</button></div>");
 	
 }
 
 function delete_project_conf(){
 	$db = connect_db();
 	
-	$pid = $_POST['delete_p_conf'];
+	$pid = $db->real_escape_string($_POST['delete_p_conf']);
+	
 	$query = "DELETE FROM project WHERE pid='$pid'";
 	
 	
@@ -102,19 +124,19 @@ function delete_project_conf(){
 function new_task(){
 	printf('<table>
 			<tr>
-				<td>title</td>
+				<td>TITLE</td>
 				<td><input type="text" maxlength="30" name="title"></input></td>
 			</tr>
 			<tr>
-				<td>description</td>
+				<td>DESCRIPTION</td>
 				<td><textarea maxlength="1000" rows="10" cols="50" style="resize: none" name="description" ></textarea></td>
 			</tr>
 			<tr>
-				<td>hourly rate</td>
+				<td>HOURLY RATE</td>
 				<td><input type="number" step="0.01" name="hrate"></input></td>
 			</tr>
 			<tr>
-				<td> associated project</td>');
+				<td> ASSOCIATED PROJECT</td>');
 	
 	$db = connect_db();
 	
@@ -136,11 +158,11 @@ function new_task(){
 function new_task_sub(){
 	$db = connect_db();
 
-	$title = $_POST['title'];
-	$description = $_POST['description'];
-	$status = $_POST['status'];
-	$hrate =  $_POST['hrate'];
-	$pid =  $_POST['pid'];
+	$title = $db->real_escape_string($_POST['title']);
+	$description = $db->real_escape_string($_POST['description']);
+	$status = $db->real_escape_string($db->real_escape_string($_POST['status']));
+	$hrate =  $db->real_escape_string($_POST['hrate']);
+	$pid =  $db->real_escape_string($_POST['pid']);
 
 	$query = "INSERT INTO  task (title, description, status, hrate, pid) VALUES ('$title', '$description', $status, $hrate, '$pid')";
 
@@ -160,18 +182,18 @@ function delete_task(){
 	$query_p = "SELECT pid, title From project ORDER BY title";
 	
 	$result_p = $db->query($query_p);
-	printf("Select a project <select onchange='displayTask()' name='pid'><br>");
+	printf("<div style='text-align:center'>Select a project <select onchange='displayTask()' name='pid'><br>");
 	while ($row_p = $result_p->fetch_array(MYSQLI_ASSOC)){
 		printf("<option value='%s'> %s </option>", $row_p['pid'], $row_p['title']);
 	}
-	printf("</select><button onclick='displayTask()'>Submit</button><br>");
+	printf("</select><br><button onclick='displayTask()'>Submit</button><br></div>");
 	
 }
 
 function delete_task_conf(){
 	$db = connect_db();
 	
-	$tid = $_POST['delete_t_conf'];
+	$tid = $db->real_escape_string($_POST['delete_t_conf']);
 	$query = "DELETE FROM task WHERE tid='$tid'";
 	
 	
@@ -192,11 +214,15 @@ function display_task(){
 	$query_p = "SELECT tid, title From task WHERE pid='$proj' ORDER BY title";
 	
 	$result_p = $db->query($query_p);
-	printf("What task do you wish to delete <select name='tid'><br>");
+	if($result_p->num_rows < 1){
+		printf("<div style='text-align:center'>Sorry there is currently no task associated to this project");
+		die();
+	}
+	printf("<div style='text-align:center'>What task do you wish to delete <select name='tid'><br>");
 	while ($row_p = $result_p->fetch_array(MYSQLI_ASSOC)){
 		printf("<option value='%s'> %s </option>", $row_p['tid'], $row_p['title']);
 	}
-	printf("</select><br><button onclick='delete_task_conf()'>Submit</button>");
+	printf("</select><br><button onclick='delete_task_conf()'>Submit</button></div>");
 	
 }
 
@@ -207,19 +233,23 @@ function edit_project(){
 	$query_p = "SELECT pid, title From project ORDER BY title";
 	
 	$result_p = $db->query($query_p);
-	printf("Select a project to edit <select name='pid'>");
+	if($result_p->num_rows < 1){
+		printf("<div style='text-align:center'>Sorry there is currently no project to display");
+		die();
+	}
+	printf("<div style='text-align:center'>Select a project to edit <select name='pid'>");
 	while ($row_p = $result_p->fetch_array(MYSQLI_ASSOC)){
 		printf("<option value='%s'> %s </option>", $row_p['pid'], $row_p['title']);
 	}
-	printf("</select><button onclick='edit_proj_choice()'>Submit</button>");
+	printf("</select><br><button onclick='edit_proj_choice()'>Submit</button></div>");
 	
 }
 
 function edit_project_choice(){
 	
-	$pid = $_POST['edit_p_choice'];
-	
 	$db = connect_db();
+	
+	$pid = $db->real_escape_string($_POST['edit_p_choice']);
 	
 	$query_p = "SELECT * From project WHERE pid='$pid'";
 	
@@ -227,28 +257,46 @@ function edit_project_choice(){
 	
 	$row_p = $result_p->fetch_array(MYSQLI_ASSOC);
 	
+	$query = "SELECT employee.fname, employee.lname, employee.uid
+				FROM employee
+				INNER JOIN user ON user.uid = employee.uid
+				WHERE user.type =  'admin'";
+	
+	$result = $db->query($query);
+	
 	printf('<table>
 	<tr>
-	<td>title</td>
-	<td><input type="text" maxlength="30" name="title" value="%s"></input></td>
+		<td>TITLE</td>
+		<td><input type="text" maxlength="30" name="title" value="%s"></input></td>
 	</tr>
 	<tr>
-	<td>description</td>
-	<td><textarea maxlength="1000" rows="10" cols="50" style="resize: none" name="description" >%s</textarea></td>
+		<td>DESCRITION</td>
+		<td><textarea maxlength="1000" rows="10" cols="50" style="resize: none" name="description" >%s</textarea></td>
 	</tr>
-	</table>
-	<button onclick="edit_proj_sub(%d)"> submit </button>', $row_p['title'], $row_p['description'], $pid);
+	<tr>
+		<td>CONTACT PERSON</td>
+		<td><select name="contact">', $row_p['title'], $row_p['description']);
+	while ($row = $result->fetch_array(MYSQLI_ASSOC)){
+		if ($row_p['contact'] == $row['uid']){
+			printf("<option value='%s' selected>%s %s</option>", $row['uid'], $row['fname'], $row['lname']);
+		}else{
+			printf("<option value='%s'>%s %s</option>", $row['uid'], $row['fname'], $row['lname']);
+		}
+	}
+	printf('</selec></td></tr></table>
+		<button onclick="edit_proj_sub(%d)"> submit </button>', $pid);
 }
 
 function edit_project_sub(){
 	
 	$db = connect_db();
 	
-	$title = $_POST['title'];
-	$Desc = $_POST['description'];
-	$pid = $_POST['pid'];
+	$title = $db->real_escape_string($_POST['title']);
+	$Desc = $db->real_escape_string($_POST['description']);
+	$pid = $db->real_escape_string($_POST['pid']);
+	$contact = $db->real_escape_string($_POST['contact']);
 
-	$query = "UPDATE project SET title = '$title', description = '$Desc' WHERE pid='$pid'";
+	$query = "UPDATE project SET title = '$title', description = '$Desc', contact = '$contact' WHERE pid='$pid'";
 
 	
 	if($db->query($query)){
@@ -267,34 +315,45 @@ function edit_task(){
 	$query_p = "SELECT pid, title From project ORDER BY title";
 
 	$result_p = $db->query($query_p);
-	printf("Select the project related to the task to edit <select name='pid'>");
+	if($result_p->num_rows < 1){
+		printf("<div style='text-align:center'>Sorry there is currently no project to dislay");
+		die();
+	}
+	printf("<div style='text-align:center'>Select the project related to the task to edit <select name='pid'>");
 	while ($row_p = $result_p->fetch_array(MYSQLI_ASSOC)){
 		printf("<option value='%s'> %s </option>", $row_p['pid'], $row_p['title']);
 	}
-	printf("</select><button onclick='edit_task_choice()'>Submit</button>");
+	printf("</select><br><button onclick='edit_task_choice()'>Submit</button></div>");
 
 }
 
 function edit_task_choice(){
-	$proj = $_POST['edit_t_choice'];
 	
 	$db = connect_db();
+	
+	$proj = $db->real_escape_string($_POST['edit_t_choice']);
 	
 	$query_p = "SELECT tid, title From task WHERE pid='$proj' ORDER BY title";
 	
 	$result_p = $db->query($query_p);
-	printf("What task do you wish to edit <select name='tid'><br>");
+	
+	if($result_p->num_rows < 1){
+		printf("<div style='text-align:center'>Sorry there is currently no task associated to this project");
+		die();
+	}
+	
+	printf("<div style='text-align:center'>What task do you wish to edit <select name='tid'><br>");
 	while ($row_p = $result_p->fetch_array(MYSQLI_ASSOC)){
 		printf("<option value='%s'> %s </option>", $row_p['tid'], $row_p['title']);
 	}
-	printf("</select><br><button onclick='edit_task_choice2()'>Submit</button>");
+	printf("</select><br><button onclick='edit_task_choice2()'>Submit</button></div>");
 }
 
 function edit_task_choice2(){
 
-	$tid = $_POST['edit_t_choice2'];
-
 	$db = connect_db();
+
+	$tid = $db->real_escape_string($_POST['edit_t_choice2']);
 
 	$query = "SELECT * From task WHERE tid='$tid'";
 
@@ -304,19 +363,19 @@ function edit_task_choice2(){
 
 	printf('<table>
 			<tr>
-				<td>title</td>
+				<td>TITLE</td>
 				<td><input type="text" maxlength="30" name="title" value="%s"></input></td>
 			</tr>
 			<tr>
-				<td>description</td>
+				<td>DESCRIPTION</td>
 				<td><textarea maxlength="1000" rows="10" cols="50" style="resize: none" name="description" >%s</textarea></td>
 			</tr>
 			<tr>
-				<td>hourly rate</td>
-				<td><input type="number" step="0.01" name="hrate" value="%d"></input></td>
+				<td>HOURLY RATE</td>
+				<td><input type="number" step="0.01" name="hrate" value="%.2f"></input></td>
 			</tr>
 			<tr>
-				<td> associated project</td>', $row['title'], $row['description'], $row['hrate']);
+				<td>ASSOCIATED PROJECT</td>', $row['title'], $row['description'], $row['hrate']);
 	
 	$db = connect_db();
 	
@@ -341,15 +400,14 @@ function edit_task_sub(){
 
 	$db = connect_db();
 
-	$title = $_POST['title'];
-	$description = $_POST['description'];
-	$tid = $_POST['tid'];
-	$hrate =  $_POST['hrate'];
-	$pid =  $_POST['pid'];
+	$title = $db->real_escape_string($_POST['title']);
+	$description = $db->real_escape_string($_POST['description']);
+	$tid = $db->real_escape_string($_POST['tid']);
+	$hrate =  $db->real_escape_string($_POST['hrate']);
+	$pid =  $db->real_escape_string($_POST['pid']);
 
 	$query = "UPDATE task SET title = '$title', description = '$description', hrate=$hrate, pid='$pid' WHERE tid='$tid'";
 
-	printf("%s", $query);
 	
 	if($db->query($query)){
 		printf("success");

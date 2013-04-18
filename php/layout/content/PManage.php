@@ -13,6 +13,7 @@ printf('<div class="menu"><ul class="man">
 printf('<script>
 		
 		function new_proj(){
+			$("#Message").html("<p></p>");
 			$.post("./../manageFunc.php",
   			  {
   			    new_p: "new"
@@ -23,20 +24,24 @@ printf('<script>
 		}
 		
 		function new_proj_sub(){
+			if(checkFormatProj()){
 			$.post("./../manageFunc.php",
   			  {
 				new_p_sub: "true",
   			    title: $("input[name=title]").val(),
 				description: $("textarea[name=description]").val(),
+				contact: $("select[name=contact]").val(),
 				status: $("input[name=status]").val()
   			  },
   			  function(data,status){
   				window.alert(data);
 				location.reload();
   			  });
+			}
 		}
 		
 		function delete_proj(){
+			$("#Message").html("<p></p>");
 			$.post("./../manageFunc.php",
   			  {
 				delete_p : "true"
@@ -61,6 +66,7 @@ printf('<script>
 		}
 		
 		function delete_task(){
+			$("#Message").html("<p></p>");
 			$.post("./../manageFunc.php",
   			  {
 				delete_t : "true"
@@ -85,6 +91,7 @@ printf('<script>
 		}
 		
 		function new_task(){
+			$("#Message").html("<p></p>");
 			$.post("./../manageFunc.php",
   			  {
   			    new_t: "new"
@@ -95,6 +102,7 @@ printf('<script>
 		}
 		
 		function new_task_sub(){
+			if(checkFormatTask()){
 			$.post("./../manageFunc.php",
   			  {
 				new_t_sub: "true",
@@ -108,10 +116,11 @@ printf('<script>
   				window.alert(data);
 				location.reload();
   			  });
+			}
 		}
 		
 		function displayTask(){
-		
+			$("#Message").html("<p></p>");
 			$.post("./../manageFunc.php",
   			  {
 				proj : $("select[name=pid]").val()
@@ -123,6 +132,7 @@ printf('<script>
 		}
 		
 		function edit_proj(){
+			$("#Message").html("<p></p>");
 			$.post("./../manageFunc.php",
   			  {
 				edit_p : "true"
@@ -144,22 +154,24 @@ printf('<script>
 		}
 		
 		function edit_proj_sub(ppid){
-		
+			if(checkFormatProj()){
 			$.post("./../manageFunc.php",
   			  {
 				edit_p_sub: "true",
   			    title: $("input[name=title]").val(),
 				description: $("textarea[name=description]").val(),
+				contact: $("select[name=contact]").val(),
 				pid : ppid
   			  },
   			  function(data,status){
   				window.alert(data);
 				location.reload();
   			  });
-		
+			}
 		}
 		
 		function edit_task(){
+			$("#Message").html("<p></p>");
 			$.post("./../manageFunc.php",
   			  {
 				edit_t : "true"
@@ -192,7 +204,7 @@ printf('<script>
 		}
 		
 		function edit_task_sub(ttid){
-		
+			if(checkFormatTask()){
 			$.post("./../manageFunc.php",
   			  {
 				edit_t_sub: "true",
@@ -206,10 +218,49 @@ printf('<script>
   				window.alert(data);
 				location.reload();
   			  });
+			}
+		
+		}
+		
+		function checkFormatProj(){
+			var notEmp = new RegExp("[a-z]|[0-9]", "i");
+			if( !notEmp.test($("input[name=title]").val())){
+				$("#Message").html("<p>***** Please enter a value in the TITLE field *****</p>");
+				return false;
+			}
+			if( !notEmp.test($("textarea[name=description]").val()) ){
+				$("#Message").html("<p>***** Please enter a value in the DESCRIPTION field *****</p>");
+				return false;
+			}
+			
+			$("#Message").html("<p></p>");
+			return true;
+		
+		}
+		
+		function checkFormatTask(){
+		
+			var notEmp = new RegExp("[a-z]|[0-9]", "i");
+			if( !notEmp.test($("input[name=title]").val())){
+				$("#Message").html("<p>***** Please enter a value in the TITLE field *****</p>");
+				return false;
+			}
+			if( !notEmp.test($("textarea[name=description]").val()) ){
+				$("#Message").html("<p>***** Please enter a value in the DESCRIPTION field *****</p>");
+				return false;
+			}
+			if( !notEmp.test($("input[name=hrate]").val()) ){
+				$("#Message").html("<p>***** Please enter a numerical value in the HOURLY RATE field *****</p>");
+				return false;
+			}
+			
+			$("#Message").html("<p></p>");
+			return true;
+		
 		
 		}
 		
 		
-		</script><div id="Results"></div>');
+		</script><div id="Message"></div><div id="Results"></div>');
 
 ?>

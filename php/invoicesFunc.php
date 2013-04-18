@@ -127,16 +127,34 @@ function edit_invoice(){
 	$pid = $Data['pid'];
 	
 	printf('
-	Name <input type="text" maxlength="30" name="name" value="%s"></input><br>
-	Date <input type="text" maxlength="30" name="date" value="%s" ></input><br>
-	Description <textarea maxlength="1000" rows="10" cols="50" style="resize: none" name="description" > %s </textarea><br>
-	<input type="radio" name="paid" value="1"  >paid
-	<input type="radio" name="paid" value="0" checked="checked">unpaid<br>', $name, $date, $description);
+	<table>
+		<tr>
+			<td>NAME</td>
+			<td> <input type="text" maxlength="30" name="name" value="%s"></input></td>
+		</tr>
+		<tr>
+			<td>DATE</td> 
+			<td><input type="text" maxlength="30" name="date" value="%s" ></input></td>
+		</tr>
+		<tr>
+			<td>DESCRIPTION</td>
+			<td> <textarea maxlength="1000" rows="10" cols="50" style="resize: none" name="description" >%s</textarea></td>
+		</tr>
+		<tr>
+			<td>DESIGNATION</td>
+			<td>
+				<input type="radio" name="paid" value="1"  >paid
+				<input type="radio" name="paid" value="0" checked="checked">unpaid
+			</td>
+		</tr>', $name, $date, $description);
 	
 	$query_p = "SELECT pid, title From project ORDER BY title";
 	
 	$result_p = $db->query($query_p);
-	printf("Associated project: <select>");
+	printf("
+		<tr>
+			<td>PROJECT</td>
+			<td> <select>");
 	while ($row_p = $result_p->fetch_array(MYSQLI_ASSOC)){
 		if($row_p['pid'] == $pid){
 			printf("<option value='%s' selected> %s </option>", $row_p['pid'], $row_p['title']);
@@ -144,10 +162,14 @@ function edit_invoice(){
 			printf("<option value='%s'> %s </option>", $row_p['pid'], $row_p['title']);
 		}
 	}
-	printf("</select><br>");
+	printf("</select>
+			</td>
+		</tr>");
 	
 	printf('<input type="hidden" name="iid" value="%s"><br>
-	<button onclick="validateEdit(%s)"> validate </button> <button onclick="displayContent()"> cancel </button>
+	<tr><td><button onclick="validateEdit(%s)"> validate </button> <button onclick="displayContent()"> cancel </button></td>
+		</tr>
+		</table>
 	', $iid, $iid);
 	
 }
@@ -177,22 +199,46 @@ function display_form(){
 	$db = connect_db();
 	
 	printf('
-	Name <input type="text" maxlength="30" name="name" ></input><br>
-	Date <input type="text" maxlength="30" name="date" ></input><br>
-	Description <textarea maxlength="1000" rows="10" cols="50" style="resize: none" name="description" ></textarea><br>
-	<input type="radio" name="paid" value="1"  >paid
-	<input type="radio" name="paid" value="0" checked="checked">unpaid<br>');
+	<table>
+		<tr>
+			<td>NAME</td>
+			<td> <input type="text" maxlength="30" name="name" ></input></td>
+		</tr>
+		<tr>
+			<td>DATE</td>
+			<td> <input type="text" maxlength="30" name="date" ></input></td>
+		</tr>
+		<tr>
+			<td>DESCRIPTION</td> 
+			<td><textarea maxlength="1000" rows="10" cols="50" style="resize: none" name="description" ></textarea></td>
+		</tr>
+		<tr>
+			<td>DESIGNATION</td>	
+			<td>
+				<input type="radio" name="paid" value="1"  >paid
+				<input type="radio" name="paid" value="0" checked="checked">unpaid
+			</td>
+		</tr>');
 	
 	$query_p = "SELECT pid, title From project ORDER BY title";
 	
 	$result_p = $db->query($query_p);
-	printf("Associated project: <select id='sel'>");
+	printf("
+		<tr>
+			<td>PROJECT</td>
+			<td> <select id='sel'>");
 	while ($row_p = $result_p->fetch_array(MYSQLI_ASSOC)){
 			printf("<option value='%s'> %s </option>", $row_p['pid'], $row_p['title']);
 	}
-	printf("</select><br>");
+	printf("</select>
+			</td>
+		</tr>");
 	
-	printf('<button onclick="validateNew()"> validate </button>');
+	printf('
+		<tr>
+			<td><button onclick="validateNew()"> validate </button></td>
+		</tr>
+	</table>');
 }
 
 function new_entry(){

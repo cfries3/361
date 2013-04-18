@@ -67,6 +67,7 @@ function printScript(){
 	function edit_submit(aid){
 			
 		var id = "#a" + aid;
+		if(checkFormat()){
 		$.post("./../accountsFunc.php",
   			  {
   			    edit_val: aid,
@@ -77,7 +78,8 @@ function printScript(){
   			  function(data,status){
 				window.alert(data);
 				location.reload();
-  			  });		
+  			  });	
+		}	
 			
 	}
 
@@ -95,7 +97,7 @@ function printScript(){
 	}
 			
 	function new_submit(){
-			
+		if(checkFormat()){
 			$.post("./../accountsFunc.php",
   			  {
   			    new_val: "true",
@@ -106,9 +108,23 @@ function printScript(){
 				window.alert(data);
 				location.reload();
   			  });	
-			
+		}
 	}		
+
+	function checkFormat(){
+			var notEmp = new RegExp("[a-z]|[0-9]", "i");
+			if( !notEmp.test($("input[name=name]").val())){
+				$("#Message").html("<p>***** Please enter a value in the NAME field *****</p>");
+				return false;
+			}
+			if ($("input[name=designation]:checked").length == 0) {
+    			$("#Message").html("<p>***** Please select a value in the DESIGNATION field *****</p>");
+				return false;
+			}
 			
+			$("#Message").html("<p></p>");
+			return true;
+	}
  
 </script>
 ';

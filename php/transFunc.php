@@ -20,8 +20,8 @@ if(isset($_POST['acc'])){
 function display_trans(){
 	$db = connect_db();
 	
-	$acc = $_POST['acc'];
-	$sort = $_POST['sort'];
+	$acc = $db->real_escape_string($_POST['acc']);
+	$sort = $db->real_escape_string($_POST['sort']);
 	
 	if ($acc == -1){
 		$query = "SELECT * From transaction ORDER BY $sort";
@@ -67,7 +67,7 @@ function display_trans(){
 function delete_trans(){
 	$db = connect_db();
 	
-	$xid = $_POST['delete'];
+	$xid = $db->real_escape_string($_POST['delete']);
 	$query = "DELETE FROM transaction WHERE xid='$xid'";
 	
 	
@@ -82,7 +82,7 @@ function delete_trans(){
 function edit_trans(){
 	$db = connect_db();
 	
-	$xid = $_POST['edit'];
+	$xid = $db->real_escape_string($_POST['edit']);
 	
 	$query = "SELECT * FROM transaction WHERE xid='$xid'";
 	
@@ -101,12 +101,28 @@ function edit_trans(){
 	$designation = $transData['designation'];
 	$aid = $transData['aid'];
 	
-	printf('Name <input type="text" maxlength="30" name="name" value="%s"></input><br>
-Description <textarea maxlength="1000" rows="10" cols="50" style="resize: none" name="description" >%s</textarea><br>
-Amount <input type="number" step="0.01" name="amount" value="%s"></input><br>
-<input type="radio" name="designation" value="income" checked="checked">income
-<input type="radio" name="designation" value="expense">expense<br>
-<select name="account">', $name, $description, $amount);
+	printf('<table>
+			<tr>
+				<td>NAME</td>
+				<td> <input type="text" maxlength="30" name="name" value="%s"></input></td>
+			</tr>
+			<tr>
+				<td>DESCRIPTION</td>
+				<td> <textarea maxlength="1000" rows="10" cols="50" style="resize: none" name="description" >%s</textarea></td>
+			</tr>
+			<tr>
+				<td>AMOUNT</td>
+				<td> <input type="number" step="0.01" name="amount" value="%s"></input></td>
+			</tr>
+			<tr>
+				<td>DESIGNATION</td>
+				<td><input type="radio" name="designation" value="income" checked="checked">income
+					<input type="radio" name="designation" value="expense">expense
+				</td>
+			</tr>
+			<tr>
+				<td>ACCOUNT</td>
+				<td><select name="account">', $name, $description, $amount);
 	
 $db = connect_db();
 
@@ -124,21 +140,27 @@ while ($row = $result->fetch_array(MYSQLI_ASSOC)){
 	}
 }
 
-printf('</select><br>
+printf('</select></td>
+		</tr>
 <input type="hidden" name="xid" value="%s">
-<button onclick="validateEdit(%s)"> validate </button> <button onclick="displayContent()"> cancel </button>', $xid, $xid);
+		<tr>
+			<td>
+				<button onclick="validateEdit(%s)"> validate </button> 
+				<button onclick="displayContent()"> cancel </button>
+			</td>
+		</tr></table>', $xid, $xid);
 	
 }
 
 function edit_trans_validated(){
 	$db = connect_db();
 	
-	$name = $_POST['name'];
-	$Desc = $_POST['description'];
-	$amount = $_POST['amount'];
-	$design = $_POST['designation'];
-	$acc = $_POST['aid'];
-	$xid = $_POST['xid'];
+	$name = $db->real_escape_string($_POST['name']);
+	$Desc = $db->real_escape_string($_POST['description']);
+	$amount = $db->real_escape_string($_POST['amount']);
+	$design = $db->real_escape_string($_POST['designation']);
+	$acc = $db->real_escape_string($_POST['aid']);
+	$xid = $db->real_escape_string($_POST['xid']);
 
 	$query = "UPDATE transaction SET name = '$name', description = '$Desc', amount = '$amount', designation = '$design', aid = '$acc' WHERE xid='$xid'";
 
@@ -155,34 +177,51 @@ function edit_trans_validated(){
 function display_form(){
 	$db = connect_db();
 	
-	printf('Name <input type="text" maxlength="30" name="name"></input><br>
-Description <textarea maxlength="1000" rows="10" cols="50" style="resize: none" name="description"></textarea><br>
-Amount <input type="number" step="0.01" name="amount"></input><br>
-Designation <input type="radio" name="designation" value="income">income
-<input type="radio" name="designation" value="expense">expense<br> ');
+	printf('<table>
+			<tr>
+				<td>NAME</td>
+				<td> <input type="text" maxlength="30" name="name"></input>
+			</tr>
+			<tr>
+				<td>DESCRIPTION</td>
+				<td> <textarea maxlength="1000" rows="10" cols="50" style="resize: none" name="description"></textarea></td>
+			</tr>
+			<tr>
+				<td>AMOUNT</td>
+				<td> <input type="number" step="0.01" name="amount"></input></td>
+			</tr>
+			<tr>
+				<td>DESIGNATION</td>
+				<td> <input type="radio" name="designation" value="income">income
+					<input type="radio" name="designation" value="expense">expense</td>
+			</tr> ');
 
 
 $query = "SELECT name, aid From account ORDER BY name";
 
 $result = $db->query($query);
 
-printf("Associated account: <select id='sel' name='account'>");
+printf("<tr>
+			<td>ACCOUNT</td>
+			<td> <select id='sel' name='account'>");
 while ($row = $result->fetch_array(MYSQLI_ASSOC)){
 	printf("<option value='%s'> %s </option>", $row['aid'], $row['name']);
 }
-printf("</select><br>");
-printf('<button onclick="validateNew()"> validate </button>');
+printf("</select>
+			</td>
+		</tr>");
+printf('<tr><td><button onclick="validateNew()"> validate </button></td></tr></table>');
 
 }
 
 function new_entry(){
 $db = connect_db();
 	
-$name = $_POST['name'];
-$Desc = $_POST['description'];
-$amount = $_POST['amount'];
-$design = $_POST['designation'];
-$acc = $_POST['aid'];
+$name = $db->real_escape_string($_POST['name']);
+$Desc = $db->real_escape_string($_POST['description']);
+$amount = $db->real_escape_string($_POST['amount']);
+$design = $db->real_escape_string($_POST['designation']);
+$acc = $db->real_escape_string($_POST['aid']);
 $date = date('Y-m-d');
 
 $query = "INSERT INTO transaction (name, description, amount, designation, aid, tdate) VALUES ('$name', '$Desc', $amount, '$design', '$acc', '$date');";

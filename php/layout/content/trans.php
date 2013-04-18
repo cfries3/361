@@ -98,6 +98,7 @@ function printScript(){
   	}
 			
 	function validateEdit(xid){
+		if(checkFormat()){
 		var id = "#x" + xid;
 		$.post("./../transFunc.php",
   			  {
@@ -112,10 +113,12 @@ function printScript(){
   			  function(data,status){
 				window.alert(data);
 				displayContent();
-  			  });	
+  			  });
+		}
 	}
 	
 	function validateNew(){
+		if(checkFormat()){
 		$.post("./../transFunc.php",
   			  {
   			    new_val: "true",
@@ -128,7 +131,8 @@ function printScript(){
   			  function(data,status){
 				displayContent();
 				window.alert(data);
-  			  });	
+  			  });
+		}
 	}
 			
 	function toggle(el){
@@ -139,10 +143,34 @@ function printScript(){
       $(child).css("display", "block");
     }
   }
+		
+	function checkFormat(){
+			var notEmp = new RegExp("[a-z]|[0-9]", "i");
+			if( !notEmp.test($("input[name=name]").val())){
+				$("#Message").html("<p>***** Please enter a value in the NAME field *****</p>");
+				return false;
+			}
+			if( !notEmp.test($("textarea[name=description]").val()) ){
+				$("#Message").html("<p>***** Please enter a value in the DESCRIPTION field *****</p>");
+				return false;
+			}
+			if( !notEmp.test($("input[name=amount]").val()) ){
+				$("#Message").html("<p>***** Please enter a numerical value in the AMOUNT field *****</p>");
+				return false;
+			}
+			if ($("input[name=designation]:checked").length == 0) {
+    			$("#Message").html("<p>***** Please select a value in the DESIGNATION field *****</p>");
+				return false;
+			}
+			
+			$("#Message").html("<p></p>");
+			return true;
+	}
 			
  
 </script>
 
+<div id="Message"></div>
 <br>
 <div id="Results"></div>';
 }
