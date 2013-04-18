@@ -7,6 +7,11 @@
 	table-layout:fixed;
 }
 
+.formsSM {
+	width:300px;
+	margin:20px 60px 10px 50px;
+}
+
 .forms td {
 	padding:10px;
 	vertical-align:top;
@@ -56,4 +61,38 @@ p {
 
 .five {
 	width:75px;
+}
+
+
+/*-- Login Page --*/
+
+#login {
+	height:250px;
+	width:500px;
+	position:relative;
+	top:100px;
+	margin:auto;
+	background-color:#FCFCFC;
+	border:10px solid #E6E6E6;
+	border-radius:25px;
+}
+
+#miniBanner {
+	height:55px;
+	width:100%;
+	background:url('./../images/skewed_print.png');
+	color:#EDEAE3;
+	border:1px solid #000;
+	border-radius:7px;
+}
+
+#miniBanner img {
+	height:45px;
+	width:45px;
+	margin:2px 20px 2px 2px;
+}
+
+#miniBanner h1 {
+	color:#FCFCFC;
+	margin:7px;
 }
