@@ -51,7 +51,7 @@ _END;
 						</ul>
 					</li>
 					<li><a href="./../pages/discussionBoard.php">Discussion Board</a></li>
-					<li><a href="pages/announce.php">Announcements</a></li>
+					<li><a href="./../pages/manageAnnouncements.php">Announcements</a></li>
 					<li><a href="pages/Accounting.html">Accounting</a>
 						<ul>
 							<li><a href="./../pages/invoice.php">Invoices</a></li>

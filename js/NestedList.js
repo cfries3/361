@@ -7,3 +7,9 @@ $(document).ready(function(){
 	});
 });
 
+
+function redirect () {
+	location.href = 'CheckingOut.php';
+}
+
+

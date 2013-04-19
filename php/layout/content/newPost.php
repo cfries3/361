@@ -8,17 +8,19 @@ require_once './../layout/formClass.php';
 	$i_tid = get_POST('taskID');
 	$str_author = get_POST('creator');
 	$str_title = get_POST('title');
+	$i_uid = $_SESSION['userid'];
+	
 	//If creating a new topic
 	if ($i_tid == 0) {
 		echo "<p><b>Create a new topic:</b></p>";
 		
 		//check if post is set
 		if (isset($_POST['Post'])) {
-			$i_newTopicID = createTopic();
+			$i_newTopicID = createTopic($i_uid);
 			echo "<p><b>The topic has been created</b></p>";
 			
-			//USE SESSION VARIABLE FOR UID!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			$eResult = queryMysql("SELECT e.fname, e.lname FROM user AS u INNER JOIN employee AS e ON u.uid = e.uid WHERE u.uid=1");
+
+			$eResult = queryMysql("SELECT e.fname, e.lname FROM user AS u INNER JOIN employee AS e ON u.uid = e.uid WHERE u.uid=$i_uid");
 			$str_fname = mysql_result($eResult, 0, 'fname');
 			$str_lname = mysql_result($eResult, 0, 'lname');
 			$str_author = $str_fname . " " . $str_lname;
@@ -41,7 +43,7 @@ require_once './../layout/formClass.php';
 		
 		//check if post is set
 		if (isset($_POST['Post'])) {
-			updateTopic($i_tid);
+			updateTopic($i_tid, $i_uid);
 			echo "<p><b>The topic has been updated</b></p>";
 			toTopic($i_tid, $str_author);
 		
@@ -69,13 +71,12 @@ require_once './../layout/formClass.php';
 	
 	
 	
-	function updateTopic($i_tid) {
+	function updateTopic($i_tid, $i_uid) {
 		$str_comment = get_POST('Post'); 
 		
 		$result = queryMysql("SELECT p.post_id FROM post AS p INNER JOIN topic AS t ON t.topic_id=p.topic_id WHERE t.topic_id=$i_tid ORDER BY p.pdate DESC LIMIT 1");
 		$i_originalID = mysql_result($result, 0, 0);
-		//on next line it needs user session var!!!!!!!!!!!!!!!!!
-		queryMysql("INSERT INTO `post`(`pdate`, `body`, `uid`, `topic_id`) VALUES (CURRENT_TIMESTAMP,\"$str_comment\",1,$i_tid)");
+		queryMysql("INSERT INTO `post`(`pdate`, `body`, `uid`, `topic_id`) VALUES (CURRENT_TIMESTAMP,\"$str_comment\",$i_uid,$i_tid)");
 		
 		$result = queryMysql("SELECT post_id FROM post WHERE body=\"$str_comment\"");
 		$i_postID = mysql_result($result, 0, 0);
@@ -86,17 +87,17 @@ require_once './../layout/formClass.php';
 		
 		
 	
-	function createTopic() {
-		$str_topic = get_post('Topic'); //Needs session variable in the  below 3 queries!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	function createTopic($i_uid) {
+		$str_topic = get_post('Topic');
 		//add the new topic
-		queryMysql("INSERT INTO topic (title, uid) VALUES (\"$str_topic\", 1)");
+		queryMysql("INSERT INTO topic (title, uid) VALUES (\"$str_topic\", $i_uid)");
 		
-		$result = queryMysql("SELECT topic_id FROM topic WHERE title=\"$str_topic\" AND uid=1");
+		$result = queryMysql("SELECT topic_id FROM topic WHERE title=\"$str_topic\" AND uid=$i_uid");
 		$i_newID = mysql_result($result, 0, 0);
 		
 		$str_comment = get_post('Post');
 		//add the first associated post
-		queryMysql("INSERT INTO post (body, uid, topic_id) VALUES (\"$str_comment\", 1, $i_newID)");
+		queryMysql("INSERT INTO post (body, uid, topic_id) VALUES (\"$str_comment\", $i_uid, $i_newID)");
 		return $i_newID;
 	}
 	
