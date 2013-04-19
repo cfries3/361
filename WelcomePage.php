@@ -88,7 +88,7 @@ function changedisplay(proj){
 		printf("</div>");
 	}
 	*/
-	printf("%s", hash("sha512", "Client"));
+	printf("%s", hash("sha512", "Sysadmin"));
 
 ?>
 
