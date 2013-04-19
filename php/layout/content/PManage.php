@@ -31,6 +31,7 @@ printf('<script>
   			    title: $("input[name=title]").val(),
 				description: $("textarea[name=description]").val(),
 				contact: $("select[name=contact]").val(),
+				uid: $("select[name=uid]").val(),
 				status: $("input[name=status]").val()
   			  },
   			  function(data,status){
@@ -160,6 +161,7 @@ printf('<script>
 				edit_p_sub: "true",
   			    title: $("input[name=title]").val(),
 				description: $("textarea[name=description]").val(),
+				uid: $("select[name=uid]").val(),
 				contact: $("select[name=contact]").val(),
 				pid : ppid
   			  },

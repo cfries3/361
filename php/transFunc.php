@@ -26,14 +26,19 @@ function display_trans(){
 	if ($acc == -1){
 		$query = "SELECT * From transaction ORDER BY $sort";
 	}else{
-		$query = "SELECT * From transaction WHERE pid='$acc' ORDER BY $sort";
+		$query = "SELECT * From transaction WHERE xid='$acc' ORDER BY $sort";
 	}
 	
 	$result = $db->query($query);
 	
 	printf("<div class='inv'>");
-	if($result->num_rows < 1)
+	
+	if(!$result)
 	{
+		printf("Sorry no result found");
+		die();
+	}
+	if($result->num_rows < 1){
 		printf("Sorry no result found");
 		die();
 	}

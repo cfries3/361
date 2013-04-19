@@ -39,10 +39,8 @@ if(isset($_POST['new_p'])){
 function new_project(){
 	$db = connect_db();
 	
-	$query = "SELECT employee.fname, employee.lname, employee.uid
-				FROM employee
-				INNER JOIN user ON user.uid = employee.uid
-				WHERE user.type =  'admin'";
+	$query = "	SELECT *
+				FROM client";
 	
 	$result = $db->query($query);
 	
@@ -56,8 +54,23 @@ function new_project(){
 				<td><textarea maxlength="1000" rows="10" cols="50" style="resize: none" name="description" ></textarea></td>
 			</tr>
 			<tr>
+				<td>CLIENT</td>
+				<td><select name="uid">');
+	while ($row = $result->fetch_array(MYSQLI_ASSOC)){
+		printf("<option value='%s'>%s</option>", $row['uid'], $row['cname']);
+	}
+	printf('</select></td></tr>
+			<tr>
 				<td>CONTACT PERSON</td>
 				<td><select name="contact">');
+	
+	$query = "SELECT employee.fname, employee.lname, employee.uid
+				FROM employee
+				INNER JOIN user ON user.uid = employee.uid
+				WHERE user.type =  'admin'";
+	
+	$result = $db->query($query);
+	
 	while ($row = $result->fetch_array(MYSQLI_ASSOC)){
 		printf("<option value='%s'>%s %s</option>", $row['uid'], $row['fname'], $row['lname']);
 	}
@@ -73,9 +86,10 @@ function new_project_sub(){
 	$title = $db->real_escape_string($_POST['title']);
 	$description = $db->real_escape_string( $_POST['description']);
 	$contact = $db->real_escape_string( $_POST['contact']);
+	$uid = $db->real_escape_string( $_POST['uid']);
 	$status = $db->real_escape_string($_POST['status']);
 	
-	$query = "INSERT INTO  project (title, description, status, contact) VALUES ('$title', '$description', $status, '$contact')";
+	$query = "INSERT INTO  project (title, description, status, contact, uid) VALUES ('$title', '$description', $status, '$contact', '$uid')";
 	
 	if($db->query($query)){
 		printf("success");
@@ -257,10 +271,8 @@ function edit_project_choice(){
 	
 	$row_p = $result_p->fetch_array(MYSQLI_ASSOC);
 	
-	$query = "SELECT employee.fname, employee.lname, employee.uid
-				FROM employee
-				INNER JOIN user ON user.uid = employee.uid
-				WHERE user.type =  'admin'";
+	$query = "	SELECT *
+				FROM client";
 	
 	$result = $db->query($query);
 	
@@ -274,8 +286,29 @@ function edit_project_choice(){
 		<td><textarea maxlength="1000" rows="10" cols="50" style="resize: none" name="description" >%s</textarea></td>
 	</tr>
 	<tr>
+		<td>CLIENT</td>
+		<td><select name="uid">		', $row_p['title'], $row_p['description']);
+	while ($row = $result->fetch_array(MYSQLI_ASSOC)){
+		if ($row_p['uid'] == $row['uid']){
+			printf("<option value='%s' selected>%s</option>", $row['uid'], $row['cname']);
+		}else{
+			printf("<option value='%s'>%s</option>", $row['uid'], $row['cname']);
+		}
+	}
+printf('</select>
+		</td>
+	</tr>
+	<tr>
 		<td>CONTACT PERSON</td>
-		<td><select name="contact">', $row_p['title'], $row_p['description']);
+		<td><select name="contact">');
+	
+	$query = "SELECT employee.fname, employee.lname, employee.uid
+				FROM employee
+				INNER JOIN user ON user.uid = employee.uid
+				WHERE user.type =  'admin'";
+	
+	$result = $db->query($query);
+	
 	while ($row = $result->fetch_array(MYSQLI_ASSOC)){
 		if ($row_p['contact'] == $row['uid']){
 			printf("<option value='%s' selected>%s %s</option>", $row['uid'], $row['fname'], $row['lname']);
@@ -294,9 +327,10 @@ function edit_project_sub(){
 	$title = $db->real_escape_string($_POST['title']);
 	$Desc = $db->real_escape_string($_POST['description']);
 	$pid = $db->real_escape_string($_POST['pid']);
+	$uid = $db->real_escape_string($_POST['uid']);
 	$contact = $db->real_escape_string($_POST['contact']);
 
-	$query = "UPDATE project SET title = '$title', description = '$Desc', contact = '$contact' WHERE pid='$pid'";
+	$query = "UPDATE project SET title = '$title', description = '$Desc', contact = '$contact', uid = '$uid' WHERE pid='$pid'";
 
 	
 	if($db->query($query)){

@@ -46,6 +46,7 @@ function printScript(){
 	echo '
 			<script>
     function displayContent(){
+		$("#Message").html("<p></p>");
   	  $.post("./../transFunc.php",
   			  {
   			    acc: $("#acc").val(),
@@ -57,6 +58,7 @@ function printScript(){
   	}
 			
 	function displayForm(){
+		$("#Message").html("<p></p>");
   	  $.post("./../transFunc.php",
   			  {
   			    display: "true"
@@ -75,6 +77,7 @@ function printScript(){
 	}		
 			
 	function deleteTrans(xid){
+		$("#Message").html("<p></p>");
   	  $.post("./../transFunc.php",
   			  {
   			    delete: xid
@@ -86,6 +89,7 @@ function printScript(){
   	}
 			
 	function editTrans(xid){
+		$("#Message").html("<p></p>");
   	  $.post("./../transFunc.php",
   			  {
   			    edit: xid

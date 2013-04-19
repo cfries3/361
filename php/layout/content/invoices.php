@@ -50,6 +50,7 @@ function printScript(){
 	echo '
 			<script>
     function displayContent(){
+		$("#Message").html("<p></p>");
   	  $.post("./../invoicesFunc.php",
   			  {
   			    proj: $("#proj").val(),
@@ -61,6 +62,7 @@ function printScript(){
   	}
 			
 	function displayForm(){
+			$("#Message").html("<p></p>");
   	  $.post("./../invoicesFunc.php",
   			  {
   			    display: "true"
@@ -80,6 +82,7 @@ function printScript(){
 	}		
 			
 	function deleteInvoice(iid){
+	$("#Message").html("<p></p>");
   	  $.post("./../invoicesFunc.php",
   			  {
   			    delete: iid
@@ -91,6 +94,7 @@ function printScript(){
   	}
 			
 	function editInvoice(iid){
+		$("#Message").html("<p></p>");
   	  $.post("./../invoicesFunc.php",
   			  {
   			    edit: iid
