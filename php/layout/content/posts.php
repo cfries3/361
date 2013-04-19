@@ -71,9 +71,10 @@ _END;
 			$str_pBody = $str_rRow[2];
 			$i_uid = $str_rRow[3];
 
-			$eResult = queryMysql("SELECT e.fname, e.lname FROM user AS u INNER JOIN employee AS e ON u.uid=e.uid WHERE u.uid=$i_uid");
-			$str_fname = mysql_result($eResult, 0, 'fname');
-			$str_lname = mysql_result($eResult, 0, 'lname');
+			$eResult = queryMysql("SELECT fname, lname FROM employee WHERE uid=$i_uid");
+			$str_eRow = mysql_fetch_row($eResult);
+			$str_fname = $str_eRow[0];
+			$str_lname = $str_eRow[1];
 			
 			echo <<<_END
 				<h3>

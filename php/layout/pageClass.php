@@ -85,6 +85,9 @@ _END;
 				case "Punches":
 					include('content/viewPunches.php');
 					break;
+				case "Manage Announcements":
+					include('content/AManage.php');
+					break;
 			}
 			echo "</div>\n" .
 				 "</div>\n" .

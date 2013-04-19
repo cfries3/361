@@ -7,6 +7,7 @@
 	} else {
 		printAnnouncements();
 		printProjects(0);
+		printScript();
 	}
 
 	
@@ -83,7 +84,7 @@ _END;
 	
 	
 	function printTasks($str_pid, $i_id) {
-		$str_tQuery = "SELECT * FROM task WHERE (pid=$str_pid)"; //!!!!!!!!Find some way to sort them by order!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		$str_tQuery = "SELECT * FROM task WHERE (pid=$str_pid)"; 
 		$tResult = queryMysql($str_tQuery);
 		$i_numTRows = mysql_num_rows($tResult);
 		
@@ -99,13 +100,10 @@ _END;
 				echo <<<_END
 					<li class="clickable"><a href="#">$str_tName</a><img class="floatRight" src="$str_checkmark" /></li>
 						<li class="dropdown task">
-							<div>
+							<div id="$i_taskID">
 								<p>$str_describe</p>
-								<form action="./../timePunch.php" method="POST">
-									<input type="hidden" name="taskID" value="$i_taskID" />
-									<button class="checkOut floatRight" type="submit" name="out" value="1">Check out</button>
-									<button class="checkIn floatRight" type="submit" name="in" value="1">Check In</button><br /><br />
-								</form>
+								<button class="checkOut floatRight" onclick="checkOut($i_taskID)">Check Out</button>
+								<button class="checkIn floatRight" onclick="checkIn($i_taskID)">Check In</button><br /><br />
 							</div>
 						</li>
 _END;
@@ -113,6 +111,10 @@ _END;
 				echo <<<_END
 					<li class="clickable"><a href="#">$str_tName</a><img class="floatRight" src="$str_checkmark" /></li>
 						<li class="dropdown task">
+							<div id="$i_taskID" class="contact">
+									<input type="hidden" name="taskID" value="$i_taskID" />
+									<button class="floatLeft" onclick="displayContact($i_taskID)" type="submit">Contact Admin</button><br /><br />
+							</div>
 						</li>
 _END;
 			}
@@ -121,4 +123,33 @@ _END;
 	}
 	
 
+	
+	function printScript() {
+		echo <<<_END
+			<script>
+				function checkOut(tid) {
+					$.post("./../timePunch.php",
+  						{
+							taskID: tid,
+						    out: "True"
+  			  			},
+  			  				function(data,status){
+  								window.alert(data);
+								window.location.reload();
+  			  				});
+				}
+										
+				function checkIn(tid) {
+					 $.post("./../timePunch.php",
+  						{
+							taskID: tid,
+						    in: "True"
+  			  			},
+  			  				function(data,status){
+  								window.alert(data);
+  			  				});
+				}				
+				</script>
+_END;
+	}
 ?>

@@ -30,6 +30,7 @@ button, [type=submit] {
 	border-radius:5px;
 	box-shadow:2px 2px 2px #E6E6E6;
 	text-shadow:0 -1px 1px #E6E6E6;
+	cursor:pointer;
 }
 
 button:active {
