@@ -83,6 +83,14 @@ function new_punch_conf(){
 	$time_in = $time_ind . " " . $time_inh;
 	$time_out = $time_outd . " " . $time_outh;
 	
+	$time_in_obj = new DateTime($time_in);
+	$time_out_obj = new DateTime($time_out);
+	
+	if($time_in_obj > $time_out_obj){
+		printf("Error! The time in must be smaller than the time out");
+		die();
+	}
+	
 	$query = "INSERT INTO  punch (time_in, time_out, tid, uid, status_flag) VALUES ('$time_in', '$time_out', '$tid', '$uid', '1')";
 	
 	
