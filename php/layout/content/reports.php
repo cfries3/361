@@ -14,6 +14,10 @@
 			$obj_form->populateList("employee", NULL);
 		}
 		$obj_form->closeFormat("Get Report");
+		printf("<script>
+				addDatePick($('input[name=from]'));
+				addDatePick($('input[name=to]'));
+				</script>");
 	}
 
 
