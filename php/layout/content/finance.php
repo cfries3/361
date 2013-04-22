@@ -33,6 +33,8 @@ printf('<script>
   			  },
   			  function(data,status){
   				$("#opt").html(data);
+				addDatePick($("input[name=from]"));
+				addDatePick($("input[name=to]"));
   			  });
 		}
 		

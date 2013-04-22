@@ -1,7 +1,7 @@
 <?php
 	include './../layout/pageClass.php';
 	
-	$sample = new Page("Finance", array("Invoice.css"), array(""));
+	$sample = new Page("Finance", array("Invoice.css", "datepicker.css"), array("datepicker.js"));
 	
-	$sample->display(1, 0);
+	$sample->display(2, 1);
 ?>

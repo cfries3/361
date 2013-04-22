@@ -111,10 +111,6 @@ _END;
 				echo <<<_END
 					<li class="clickable"><a href="#">$str_tName</a><img class="floatRight" src="$str_checkmark" /></li>
 						<li class="dropdown task">
-							<div id="$i_taskID" class="contact">
-									<input type="hidden" name="taskID" value="$i_taskID" />
-									<button class="floatLeft" onclick="displayContact($i_taskID)" type="submit">Contact Admin</button><br /><br />
-							</div>
 						</li>
 _END;
 			}

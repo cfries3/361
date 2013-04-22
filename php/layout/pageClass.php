@@ -1,5 +1,5 @@
 <?php
-	//add in any other content pages
+	
     class Page {
 
         protected $str_title;
@@ -96,6 +96,8 @@ _END;
 					break;
 				case "Accounting":
 					include('content/acc.php');
+				case "Contact Administrators":
+					include('content/contact.php');
 					break;
 			}
 			echo "</div>\n" .

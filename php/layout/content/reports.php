@@ -58,14 +58,14 @@ _END;
 			$str_row = mysql_fetch_row($result);
 
 			//Check to ensure it is within the date boundaries
-			$day_in = date('Y-m-d g:i', strtotime($str_row[1]));
+			$day_in = date('Y-m-d G:i', strtotime($str_row[1]));
 			$time_in = strtotime($day_in);
 			if ($time_in < $time_start) {
 				break;
 			}
 			
 			if ($str_row[2] != NULL) {
-				$day_out = date('Y-m-d g:i', strtotime($str_row[2]));
+				$day_out = date('Y-m-d G:i', strtotime($str_row[2]));
 				$time_out = strtotime($day_out);
 				if ($time_out > $time_end) {
 					break;
@@ -104,8 +104,8 @@ _END;
 _END;
 		}
 		echo "</table></div></div></div>";
-		echo "<h3>Total Hours: " . ($i_totalHours / 3600) . "</h3>" .
-			 "<h3>Number of automatic checkouts: " . $i_autoOuts . "</h3>";
+		printf("<h3>Total Hours: %.2f </h3>" .
+			 "<h3>Number of automatic checkouts: " . $i_autoOuts . "</h3>", ($i_totalHours / 3600));
 	}
 	
 	

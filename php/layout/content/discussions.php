@@ -1,12 +1,8 @@
 <?php 
-	//add in links to posts
-	//create topic button
+
 	require_once './../databaseFunctions.php';
-	
-	
 
 	displayTopics();
-
 	
 	
 	function printTopic($result, $i_numTRows) {

@@ -96,9 +96,10 @@ _END;
 					<li><a href="./../pages/ProjectList.php">Projects</a>
 						<ul>
 							<li><a href="./../pages/ProjectList.php">Project List</a></li>
+							<li><a href="./../pages/contactAdministrator.php">Contact Admin</a></li>
 						</ul>
 					</li>
-					<li><a href="pages/Accounting.html">Accounting</a>
+					<li><a href="./../pages/invoice.php">Accounting</a>
 						<ul>
 							<li><a href="./../pages/invoice.php">Invoices</a></li>
 						</ul>
