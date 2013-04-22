@@ -1,5 +1,5 @@
 <?php
-	//add in any other content pages
+	
     class Page {
 
         protected $str_title;
@@ -93,6 +93,9 @@ _END;
 					break;
 				case "User Management":
 					include('content/UManage.php');
+					break;
+				case "Contact Administrators":
+					include('content/contact.php');
 					break;
 			}
 			echo "</div>\n" .
