@@ -91,6 +91,9 @@ _END;
 				case "Manage Announcements":
 					include('content/AManage.php');
 					break;
+				case "User Management":
+					include('content/UManage.php');
+					break;
 			}
 			echo "</div>\n" .
 				 "</div>\n" .

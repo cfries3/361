@@ -21,7 +21,6 @@ function delete_account(){
 	$aid = $db->real_escape_string($_POST['aid']);
 	$query = "DELETE FROM account WHERE aid='$aid'";
 	
-	
 	if($db->query($query)){
 		printf("success");
 	}
@@ -52,8 +51,9 @@ function display_form(){
 	printf('
 	<p id="Message"></p>
 	NAME <input type="text" maxlength="30" name="name" value="%s"></input><br>
-	<input type="radio" name="designation" value="income"  >income
-	<input type="radio" name="designation" value="expense" checked="checked">expense<br>
+	<input type="radio" name="designation" value="asset"  >asset
+	<input type="radio" name="designation" value="liability" checked="checked">liability
+	<input type="radio" name="designation" value="equity">equity<br>
 	<input type="hidden" name="aid" value="%s">
 	<button onclick="edit_submit(%s)"> validate </button> <button onclick="cancel_edit()"> cancel </button>', $name, $aid, $aid);
 }
@@ -81,8 +81,9 @@ function display_empty_form(){
 	printf('
 	<p id="Message"></p>
 	NAME <input type="text" maxlength="30" name="name" ></input><br>
-	<input type="radio" name="designation" value="income"  >income
-	<input type="radio" name="designation" value="expense"">expense<br>
+	<input type="radio" name="designation" value="asset"  >asset
+	<input type="radio" name="designation" value="liability" checked="checked">liability
+	<input type="radio" name="designation" value="equity">equity<br>
 	<button onclick="new_submit()"> validate </button> <button onclick="location.reload()"> cancel </button>');
 }
 

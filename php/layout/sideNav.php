@@ -80,7 +80,7 @@ _END;
 					</li>
 					<li><a href="./../pages/discussionBoard.php">Discussion Board</a></li>
 					<li><a href="pages/WorkReport.html">Work Report</a></li>
-					<li><a href="pages/ManageUsers.html">Manage Users</a></li>
+					<li><a href="./../pages/userManagement.php">Manage Users</a></li>
 					<li><a href="./../pages/punchManagement.php">Manage Punches</a></li>
 				</ul>
 			</div>	

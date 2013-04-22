@@ -53,7 +53,7 @@ printf('<script>
 		}
 		
 		function delete_proj_conf(){
-			var answer = confirm("Are you sure you want to delete this project?");
+			var answer = confirm("Are you sure you want to delete this project? Doing so will result in also deleting all tasks, invoices, transactions and accounts associated to this project.");
 			if(answer){
 				$.post("./../manageFunc.php",
   			  {
@@ -78,7 +78,7 @@ printf('<script>
 		}
 		
 		function delete_task_conf(){
-			var answer = confirm("Are you sure you want to delete this task?");
+			var answer = confirm("Are you sure you want to delete this task? ");
 			if(answer){
 				$.post("./../manageFunc.php",
   			  {
