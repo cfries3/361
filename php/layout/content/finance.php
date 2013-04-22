@@ -2,34 +2,56 @@
 
 require_once './../databaseFunctionsOO.php';
 
-$db = connect_db();
+printf("<div class='opt' id='opt'> <br>
+		Select a report type <select id='type'>
+					<option value='i/e'>Income/exense</option>
+					<option value='acc'>Account summary</option>
+					<option value='sum'>Summary of accounts totals</option>
+				</select><br>
+		<button onclick='report_type()'>Submit</button>
+		");
 
-$query = "SELECT name, aid From account ORDER BY name";
+printf('
+		</div><div id="hLine2" class="dividerLine floatLeft"> 
+		</div>');
 
-$result = $db->query($query);
-
-
-
-printf("<div class='opt'> <br>
-			Select an account <select id='acc' name='acc'>
-	<option value='all' > All Accounts </option>");
-
-while ($row = $result->fetch_array(MYSQLI_ASSOC)){
-	printf("<option value='%s' > %s </option>", $row['aid'], $row['name']);
-}
-
-printf("</select><br>");
-printf(' <button id="submit_btn" onclick="displayReport()">  Submit </button>  
-		<button class="floatRight" onclick="printFriendly()"> Print </button> <br> <br>
-		<div id="hLine2" class="dividerLine floatLeft"> 
-		</div></div>');
-
-printf('<script> 
+printf('<script>
+		
+		function report_type(){
+			if($("#type").val() == "sum"){
+			$.post("./../reportFunc.php",
+  			  {
+  			    sum_aid: $("#type").val()
+  			  },
+  			  function(data,status){
+  				$("#Results").html(data);
+  			  });
+			}
+			$.post("./../reportFunc.php",
+  			  {
+  			    type: $("#type").val()
+  			  },
+  			  function(data,status){
+  				$("#opt").html(data);
+  			  });
+		}
+		
+		function displayReport2(){
+			$.post("./../reportFunc.php",
+  			  {
+  			    acc_aid: $("#acc").val(),
+				from: $("input[name=from]").val(),
+				to: $("input[name=to]").val()
+  			  },
+  			  function(data,status){
+  				$("#Results").html(data);
+  			  });
+		}
 		
 		function displayReport(){
 			$.post("./../reportFunc.php",
   			  {
-  			    aid: $("#acc").val()
+  			    ieaid: $("#acc").val()
   			  },
   			  function(data,status){
   				$("#Results").html(data);
