@@ -94,6 +94,9 @@ _END;
 				case "User Management":
 					include('content/UManage.php');
 					break;
+				case "Accounting":
+					include('content/acc.php');
+					break;
 			}
 			echo "</div>\n" .
 				 "</div>\n" .

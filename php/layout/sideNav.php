@@ -52,7 +52,7 @@ _END;
 					</li>
 					<li><a href="./../pages/discussionBoard.php">Discussion Board</a></li>
 					<li><a href="./../pages/manageAnnouncements.php">Announcements</a></li>
-					<li><a href="pages/Accounting.html">Accounting</a>
+					<li><a href="./../pages/accounting.php">Accounting</a>
 						<ul>
 							<li><a href="./../pages/invoice.php">Invoices</a></li>
 							<li><a href="./../pages/transaction.php">Transactions</a></li>
@@ -75,11 +75,11 @@ _END;
 					<li><a href="./../pages/ProjectList.php">Projects</a>
 						<ul>
 							<li><a href="./../pages/ProjectList.php">Project List</a></li>
-							<li><a href="pages/checkingOut.php">Check Out</a></li>
+							<li><a href="./../pages/checkingOut.php">Check Out</a></li>
 						</ul>
 					</li>
 					<li><a href="./../pages/discussionBoard.php">Discussion Board</a></li>
-					<li><a href="pages/WorkReport.html">Work Report</a></li>
+					<li><a href="./../pages/workReport.php">Work Report</a></li>
 					<li><a href="./../pages/userManagement.php">Manage Users</a></li>
 					<li><a href="./../pages/punchManagement.php">Manage Punches</a></li>
 				</ul>
@@ -96,7 +96,6 @@ _END;
 					<li><a href="./../pages/ProjectList.php">Projects</a>
 						<ul>
 							<li><a href="./../pages/ProjectList.php">Project List</a></li>
-							<li><a href="pages/ContactAdmin.html">Contact Admin</a></li>
 						</ul>
 					</li>
 					<li><a href="pages/Accounting.html">Accounting</a>

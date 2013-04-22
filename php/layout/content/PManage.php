@@ -12,6 +12,8 @@ printf('<div class="menu"><ul class="man">
 
 printf('<script>
 		
+		
+		
 		function new_proj(){
 			$("#Message").html("<p></p>");
 			$.post("./../manageFunc.php",
